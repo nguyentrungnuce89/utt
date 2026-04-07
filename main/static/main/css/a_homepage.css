@@ -1,0 +1,98 @@
+#about-text{
+    font-size: 16px;
+    color: #151E4D;
+}
+.dropcap::first-letter {
+    float: left;
+    font-size: 7rem;
+    line-height: 0.6;      /* giảm chiều cao chữ */
+    font-weight: bold;
+    margin-right: 10px;
+    margin-top: 18px;       /* đẩy chữ xuống một chút */
+}
+
+.dropcap {
+    line-height: 1.6;      /* line-height bình thường cho đoạn */
+}
+
+.project-head{
+    font-size: 22px;
+    font-weight: 600;
+    color: blue;
+    text-align: center;
+}
+.card-title{
+    font-weight: 600;
+    color: #157347;
+}
+
+/* Thiết lập cho section Funfact tràn màn hình */
+.funfact-section {
+    background-color: #F57234;
+    width: 100vw; /* Chiều rộng toàn màn hình */
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 40px 0;
+    overflow: hidden;
+}
+
+/* Thu nhỏ nội dung xuống 75% và căn giữa */
+.funfact-section .zoom-wrapper {
+    transform: scale(0.75);
+    transform-origin: center center;
+    width: 133.33%; /* Bù đắp cho việc scale 0.75 (1/0.75) */
+    margin-left: -16.66%; /* Căn giữa lại (133.33% - 100%) / 2 */
+}
+
+/* Style đơn giản cho các thẻ nội dung */
+.fact-card {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+    height: 100%;
+    transition: none; /* Đơn giản hóa, bỏ hiệu ứng bay nhảy */
+}
+.fact-card:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.fact-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.fact-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    display: block;
+}
+
+.fact-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+.fact-desc {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+/* Mobile: Bỏ scale để dễ đọc trên màn hình nhỏ */
+@media (max-width: 991px) {
+    .funfact-section .zoom-wrapper {
+        transform: scale(1);
+        width: 100%;
+        margin-left: 0;
+    }
+}

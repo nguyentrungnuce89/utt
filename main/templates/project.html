@@ -1,0 +1,232 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+.project-image img{
+        width: 55%;
+    }
+@media (max-width: 991px) {
+    .project-image img{
+        width: 100%;
+    }
+}
+</style>
+
+{% endblock %} 
+{% block title %}Các dự án{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Công trình tiêu biểu</li>
+        </ol>
+    </nav>
+    <span class="page-head">CÁC DỰ ÁN ĐÃ THAM GIA</span>  
+    <div class="project table-responsive">
+        <table class="table mt-3 table-bordered table-responsive">
+            <thead class="table-primary">
+                <th>STT</th>
+                <th>TÊN DỰ ÁN</th>
+                <th>CHỦ ĐẦU TƯ</th>
+                <th style="min-width: 150px;">CÔNG VIỆC THỰC HIỆN</th>
+                <th>NGUỒN VỐN</th>
+                <th>TIẾN ĐỘ</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6"><b>TƯ VẤN THÍ NGHIỆM, KIỂM ĐỊNH</b></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Kiểm định đường và công trình trên đường QL12B - Hòa Bình</td>
+                    <td>Quản lý Đường bộ II - Hòa Bình</td>
+                    <td>- Kiểm định mặt đường BTN và mặt đường đá dăm láng nhựa;<br>- Kiểm định toàn bộ các công trình cầu, thoát nước trên tuyến.</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Dự án cải tạo nâng cấp QL32A; Đoạn Thu Cúc - Đèo Khế – Thượng Bằng La.</td>
+                    <td>Ban QLDA Thăng Long</td>
+                    <td>- Kiểm định chất lượng công trình</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Kiểm định 4 cầu trên QL4G; đoạn Sông Mã-Sốp Cộp-Búng Pánh, tỉnh Sơn La</td>
+                    <td>Ban Chỉ huy quân sự tỉnh Sơn La</td>
+                    <td>- Kiểm định Cầu giản đơn 01 nhịp từ 12-18m</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Kiểm định QL38, đoạn nối QL1 và QL5 qua địa phận tỉnh bắc Ninh và Hải Dương theo hình tức hợp đồng BOT</td>
+                    <td>Ban Quản lý dự án 2</td>
+                    <td>- Kiểm định chất lượng công trình.</td>
+                    <td>BOT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Dự án đường cao tốc Hạ Long – Vân Đồn và cải tạo, nâng cấp QL18 đoạn Hạ Long – Mông Dương theo hình thức hợp đồng BOT</td>
+                    <td>Công ty Cổ phần BOT Biên Cương</td>
+                    <td>- Kiểm định – thử tải các cầu trền QL18: cầu Lộ Phong, cầu B5-7, cầu đường sắt, cầu B5- 12, cầu vượt nút Km154, cầu Mông Dương. <br>- Thí nghiệm kiểm tra chất lượng mỏ vật liệu, thiết kế thành phần hỗn hợp BTN, TN các chỉ tiêu cơ học phục vụ thiết kế áo đường.</td>
+                    <td>BOT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Đường quanh khu tưởng niệm Chu Văn An, Hoàng Mai, Hà Nội</td>
+                    <td>Công ty TNHH Đường BT Chu Văn An</td>
+                    <td>Thí nghiệm bê tông, cát, đá, phụ gia BT, thép, CPĐD và các loại VLXD khác của dự án</td>
+                    <td>BT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Dự án xây dựng Đường cao tốc Hà Nội – Lạng Sơn, bước thiết kế kỹ thuật</td>
+                    <td>Công ty cổ phần tư vấn kỹ thuật E&R</td>
+                    <td>Thí nghiệm đất, đá, bột khoáng, CPĐD và các loại VLXD khác để phục vụ công tác thiết kế lập BVTC dự án</td>
+                    <td>BOT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Dự án xây dựng Đường cao tốc Hà Nội – Lạng Sơn, bước thiết kế kỹ thuật</td>
+                    <td>Công ty Cổ phần Tư vấn đường cao tốc Việt Nam</td>
+                    <td>Thí nghiệm đất, đá, bột khoáng, CPĐD và các loại VLXD khác để phục vụ công tác khảo sát địa chất dự án</td>
+                    <td>BOT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Dự án đường cao tốc Hạ Long – Vân Đồn và cải tạo, nâng cấp QL18 đoạn Hạ Long – Mông Dương theo hình thức hợp đồng BOT</td>
+                    <td>Công ty Cổ phần BOT Biên Cương</td>
+                    <td>- Tư vấn kiểm định chất lượng công trình</td>
+                    <td>BOT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Dự án ĐTXD công trình mở rộng QL1 các đoạn Km 1589+300 ÷ Km 1642+000 và Km 1692+000 ÷ Km1720+800, tỉnh Bình Thuận</td>
+                    <td>Ban Quản lý dự án 1</td>
+                    <td>- Kiểm định cầu cũ của dự án (16 cầu)</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>Kiểm định chất lượng công trình Dự án Đường trục phía Nam tỉnh Hà Tây và các cầu trên tuyến</td>
+                    <td>Công ty CP phát triển địa ốc CIENCO 5</td>
+                    <td>-Tư vấn kiểm định chất lượng công trình đường và các cầu trên tuyến.</td>
+                    <td>BT</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>Kiểm định định kỳ cầu Lồng,Km175+650, QL21B; và cầu Kim Mỹ, Km34+240, QL12B kéo dài</td>
+                    <td>Sở Giao thông Vận tải Ninh Bình</td>
+                    <td>-Tư vấn kiểm định chất lượng công trình cầu</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>Công trình: Kiểm định cầu Suối Cúc, Km0+908,2, Quốc lộ 32B</td>
+                    <td>Sở Giao thông Vận tải Phú Thọ</td>
+                    <td>-Tư vấn kiểm định chất lượng công trình cầu</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>Công trình: Kiểm định cầu Xóm Mỏ, Km137+671,8, Quốc lộ 32</td>
+                    <td>Sở Giao thông Vận tải Phú Thọ</td>
+                    <td>-Tư vấn kiểm định chất lượng công trình cầu</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>Dự án thành phần 1 thuộc Dự án đầu tư sửa chữa gia cường các cầu trên Quốc lộ đảm bảo đồng bộ tải trọng khai thác trên tuyến</td>
+                    <td>Ban Quản lý dự án 4</td>
+                    <td>- Tư vấn kiểm định thử tải sau khi gia cường các cầu trên các tuyến: QL279 tỉnh Bắc Kạn, QL49C tỉnh Quảng Trị, QL49B tỉnh Thừa Thiên Huế, QL1 tỉnh Cà Mau, QL30 tỉnh Đồng Tháp, QL61B tỉnh Hậu Giang, QL54 tỉnh Trà Vinh, QL57 tỉnh Bến Tre</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>Dự án thành phần 2, giai đoạn 2 thuộc Dự án đầu tư xây dựng công trình sửa chữa, gia cường các cầu trên Quốc lộ đảm bảo đồng bộ tải trọng khai thác trên tuyến</td>
+                    <td>Ban Quản lý dự án 5</td>
+                    <td>- Tư vấn kiểm định thử tải sau khi sửa chữa, gia cường các cầu trên các tuyến: QL14D, QL14E, QL40B tỉnh Quảng Nam, QL29 tỉnh Đắk Lắk, QL55 tỉnh Bình Thuận, QL27B tỉnh Ninh Thuận, QL1 (cầu Bến Lức 1 cũ) tỉnh Long An.</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đã hoàn thành</td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>Dự án đường cao tốc Vân Đồn – Móng Cái theo hình thức đối tác công tư (PPP)</td>
+                    <td>Công ty TNHH đầu tư và phát triển hạ tầng Vân Đồn</td>
+                    <td>- Thí nghiệm vật liệu các gói thầu XL-R3, XL- B4.</td>
+                    <td>BOT</td>
+                    <td>Đang thực hiện</td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>Dự án: Cải tạo, nâng cấp các cầu yếu và gia cố trụ chống va xô trên tuyến đường sắt Hà Nội – TP. Hồ Chí Minh</td>
+                    <td>Ban Quản lý dự án đường sắt</td>
+                    <td>-Khảo sát, lập báo cáo nghiên cứu khả thi <br>- Kiểm định, thử tải cầu</td>
+                    <td>Ngân sách Nhà nước</td>
+                    <td>Đang thực hiện</td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>Dự án: Quảng trường biển, trục cảnh quan lễ hội Thành phố Sầm Sơn theohình thứ đối tác công tư ( Hợp đồng BT )</td>
+                    <td>Công ty TNHH xây dựng dân dụng Olympia</td>
+                    <td>- Thí nghiệm vật liệu xây dựng</td>
+                    <td>BT</td>
+                    <td>Đang thực hiện</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>Dự án Khu đô thị sinh thái, nghỉ dưỡng, vui chơi giải trí cao cấp và du lịch biển Sầm Sơn</td>
+                    <td>Công ty TNHH xây dựng công nghiệp Olympia</td>
+                    <td>-Thí nghiệm vật liệu xây dựng</td>
+                    <td>BT</td>
+                    <td>Đang thực hiện</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>Dự án Khu công viên cây xanh và TTTT Thanh Hóa (SunSport Thanh Hóa)</td>
+                    <td>Công ty Cổ phần Tập đoàn Mặt trời</td>
+                    <td>- Khảo sát hiện trạng và kiểm định chất lượng công trình hạng mục cải tạo nhà tập GYM và bể bơi</td>
+                    <td>Chủ đầu tư</td>
+                    <td>Đang thực hiện</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="project-image">
+        <h5 style="text-align: center;margin-top: 32px;margin-bottom: 12px;font-weight: 500;color: blue;">
+            HÌNH ẢNH THÍ NGHIỆM - KIỂM ĐỊNH CÔNG TRÌNH
+        </h5>
+        <div class="image-section text-center mb-5">
+            <img src="{% static 'main\img\project\1.jpg' %}" alt="" class="mb-4">
+            <img src="{% static 'main\img\project\2.jpg' %}" alt="">
+            <img src="{% static 'main\img\project\3.jpg' %}" alt="">
+            <img src="{% static 'main\img\project\4.jpg' %}" alt="">
+            <img src="{% static 'main\img\project\5.jpg' %}" alt="">
+            <img src="{% static 'main\img\project\6.jpg' %}" alt="">
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+
+</style>
+
+{% endblock %} 
+{% block title %}Thông tin{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container mt-2">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tin tức</li>
+        </ol>
+    </nav>
+    <div class="news">
+        <span class="page-head">TIN TỨC - THÔNG BÁO</span>
+        {% for i in page %}
+        <div class="news-item row mt-3">
+            <div class="news-image col-12 col-md-3 text-center">
+                <a href="{% url 'main:newsdetail' i.slug %}"><img src="{{ i.Image.url }}" alt="" width="220px"></a>
+            </div>
+            <div class="news-content col-12 col-md-6 mt-1">
+                <div class="news-title">
+                    <a href="{% url 'main:newsdetail' i.slug %}" style="color: black;text-decoration: none;"><p style="font-weight: bold;margin-bottom: 6px;font-size: 16px;">{{ i.Name }}</p></a>
+                </div>
+                <div class="news-time" style="color: grey;margin-bottom: 6px;">
+                    <span><i class="fa-regular fa-clock"></i>&nbsp;{{ i.Created_at|date:"d/m/Y"}}</span>
+                </div>
+                <div class="news-desc">
+                    <p>{{i.Description}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <nav class="mt-4">
+            {% if page.has_other_pages %}
+            <ul class="pagination" data-pagination-target="page" style="font-size:14px;">
+                {% if page.has_previous %}
+                <li class="page-item"><a href="?page1={{ page.previous_page_number }}" class="page-link">&laquo;</a></li>
+                {% else %}
+                <li class="disabled page-item"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+                {% for i in page.paginator.page_range %}
+                {% if page.number == i %}
+                <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page.has_next %}
+                <li class="page-item"><a href="?page={{ page.next_page_number }}" class="page-link">&raquo;</a></li>
+                {% else %}
+                <li class="disabled page-item"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </nav>
+    </div>
+</div>
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

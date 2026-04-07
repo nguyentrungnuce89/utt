@@ -1,0 +1,63 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+.decision img{
+    width: 65%;
+}
+@media (max-width: 991px) {
+    .decision img{
+        width: 100%;
+    }
+}
+</style>
+
+{% endblock %} 
+{% block title %}Phép thử phòng thí nghiệm{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Danh mục phép thử</li>
+        </ol>
+    </nav>
+    <span class="page-head">DANH MỤC PHÉP THỬ PHÒNG THÍ NGHIỆM LAS-XD 799</span>  
+    <div class="project table-responsive mt-3">
+        <table class="table mt-3 table-bordered table-responsive">
+            <thead class="table-primary">
+                <th>STT</th>
+                <th style="min-width: 150px;">TÊN CHỈ TIÊU THÍ NGHIỆM</th>
+                <th>TIÊU CHUẨN KỸ THUẬT</th>
+            </thead>
+            <tbody>
+                {% for group,phepthus in groups.items %}
+                <tr>
+                    <td colspan="3"><b>{{ group }}</b></td>
+                </tr>
+                {% for i in phepthus %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.Ten }}</td>
+                    <td>{{ i.TCKT }}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="document-att mt-3">
+        <span class="page-head">GIẤY CHỨNG NHẬN PHÒNG THÍ NGHIỆM CHUYÊN NGÀNH</span>
+        <div class="document-list mt-4 mb-5">
+            <p class="ms-5"><a href="{% static 'main/pdf/1280.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 1280/GCN-BXD ngày 02/10/2019</a></p>
+            <p class="ms-5"><a href="{% static 'main/pdf/235.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 235/GCN-BXD ngày 29/09/2020</a></p>
+            <p class="ms-5"><a href="{% static 'main/pdf/238.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 238/GCN-BXD ngày 19/06/2023</a></p>
+        </div>
+    </div>
+</div>
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

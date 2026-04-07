@@ -1,0 +1,233 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<link rel="stylesheet" href="{% static 'main/css/a_homepage.css' %}?{% now "U" %}">
+<style>
+/* PAGE CSS */
+</style>
+
+{% endblock %} 
+{% block title %}Trang chủ{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<!-- BANNER -->
+<div class="banner">
+    <div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'main\img\banner_1.png' %}" class="d-block w-100" alt="banner_1" />
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'main\img\banner_2.png' %}" class="d-block w-100" alt="..." />
+        </div>
+    </div>
+    <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExample"
+        data-bs-slide="prev"
+    >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExample"
+        data-bs-slide="next"
+    >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+</div>
+<!-- ABOUT -->
+<div class="container">
+    <div class="row mt-3" id="about-section">
+        <div class="col-12 col-lg-4 p-0 text-center text-lg-start">
+            <img src="{% static 'main/img/about.jpg' %}" alt="" width="90%" class="img-fluid">
+        </div>
+        <div class="col-12 col-lg-8 dropcap p-0 mt-4" id="about-text">
+            Công ty Cổ phần Tư vấn và Xây dựng công trình – UTT là doanh nghiệp hoạt động trong lĩnh vực tư vấn, khảo sát, thiết kế, giám sát, kiểm định và thi công các công trình giao thông, dân dụng, công nghiệp và hạ tầng kỹ thuật. Thành lập năm 1998, tiền thân trực thuộc Trường Đại học Công nghệ GTVT, công ty chuyển đổi thành mô hình cổ phần từ năm 2015. Với nhiều dự án tiêu biểu trên toàn quốc như quốc lộ, cầu đường, cao tốc và hạ tầng đô thị, UTT luôn đảm bảo chất lượng, tiến độ và hiệu quả kinh tế, đồng thời gắn kết hoạt động sản xuất kinh doanh với đào tạo thực tiễn và chuyển giao công nghệ cùng nhà trường.
+            <br>
+            <span style="color: #f17e27;font-weight: 600;">CHẤT LƯỢNG - UY TÍN - HIỆU QUẢ - PHÁT TRIỂN BỀN VỮNG</span> là phương châm làm việc của chúng tôi.
+            <br>
+            <a href="{% url 'main:about' %}" style="color: green;"><span>Xem thêm >></span></a>
+        </div>
+    </div>
+    <!-- FUNFACT -->
+    <div class="funfact-section mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="fact-card shadow-sm">
+                        <div class="fact-icon"><i class="fa-solid fa-award"></i></div>
+                        <span class="fact-number">25+ Năm</span>
+                        <h3 class="fact-title">Kinh nghiệm thực chiến</h3>
+                        <p class="fact-desc">Kế thừa nền tảng từ những dự án trọng điểm quốc gia từ trước năm 1998.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="fact-card shadow-sm">
+                        <div class="fact-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                        <span class="fact-number">100%</span>
+                        <h3 class="fact-title">Chuyên gia đầu ngành</h3>
+                        <p class="fact-desc">Đội ngũ cố vấn là các Giáo sư, Tiến sĩ, Thạc sĩ từ Trường Đại học Công nghệ GTVT.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="fact-card shadow-sm">
+                        <div class="fact-icon"><i class="fa-solid fa-microscope"></i></div>
+                        <span class="fact-number">293+</span>
+                        <h3 class="fact-title">Phép thử chuẩn Quốc tế</h3>
+                        <p class="fact-desc">Phòng LAS-XD 799 thực hiện các thí nghiệm khắt khe theo tiêu chuẩn TCVN và ASTM.</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="fact-card shadow-sm">
+                        <div class="fact-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <span class="fact-number">34 </span>
+                        <h3 class="fact-title">Tỉnh thành</h3>
+                        <p class="fact-desc">Dấu ấn của UTT hiện diện trên mọi miền tổ quốc.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- PROJECT -->
+    <div class="mt-5" id="project">
+        <div class="project-head">
+            <a href="{% url 'main:project' %}" style="text-decoration: none;color: blue;">CÁC DỰ ÁN ĐÃ THỰC HIỆN</a>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/CaoTocHaLong.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Dự án đường cao tốc Hạ Long – Vân Đồn và cải tạo, nâng cấp QL18 đoạn Hạ Long – Mông Dương
+                        </h6>
+                        <p class="card-text">Tư vấn kiểm định chất lượng công trình.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/QL-38.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Kiểm định QL38, đoạn nối QL1 và QL5 qua địa phận tỉnh bắc Ninh và Hải Dương
+                        </h6>
+                        <br>
+                        <p class="card-text">Tư vấn kiểm định chất lượng công trình.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/TrucPhiaNam.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Dự án Đường trục phía Nam tỉnh Hà Tây và các cầu trên tuyến
+                        </h6>
+                        <br>
+                        <br>
+                        <p class="card-text">Tư vấn kiểm định chất lượng công trình.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/VanDonMongCai.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Dự án đường cao tốc Vân Đồn – Móng Cái theo hình thức đối tác công tư (PPP)
+                        </h6>
+                        <p class="card-text">Thí nghiệm vật liệu các gói thầu XL-R3, XL- B4.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/LangSon.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Dự án xây dựng Đường cao tốc Hà Nội – Lạng Sơn, bước thiết kế kỹ thuật
+                        </h6>
+                        <p class="card-text">Thí nghiệm đất, đá, bột khoáng, CPĐD và các loại VLXD.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/CauBinhThuan.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Dự án ĐTXD công trình mở rộng QL1 các đoạn Km 1589+300 ÷ Km 1642+000 và Km 1692+000 ÷ Km1720+800, tỉnh Bình Thuận
+                        </h6>
+                        <p class="card-text">Kiểm định cầu cũ của dự án (16 cầu).</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/SamSon.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Dự án Khu đô thị sinh thái, nghỉ dưỡng, vui chơi giải trí cao cấp và du lịch biển Sầm Sơn
+                        </h6>
+                        <p class="card-text">Thí nghiệm vật liệu xây dựng.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 mt-2 d-flex justify-content-center">
+                <div class="card" style="width: 18rem;height: 380px;">
+                    <img src="{% static 'main/img/CVA.jpg' %}" class="card-img-top" alt="..." height="178px">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            Đường quanh khu tưởng niệm Chu Văn An, Hoàng Mai, Hà Nội
+                        </h6>
+                        <p class="card-text">Thí nghiệm bê tông, cát, đá, phụ gia BT, thép, CPĐD và các loại VLXD khác của dự án.</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'main:project' %}" class="card-link btn btn-success btn-sm">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- NEWS -->
+
+</div>
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

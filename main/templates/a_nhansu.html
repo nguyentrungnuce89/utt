@@ -1,0 +1,83 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+</style>
+<link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+{% endblock %} 
+{% block title %}Nhân sự{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+            <li class="breadcrumb-item active" aria-current="page">Nhân sự</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="about-menu-wrapper col-12 col-lg-3 mt-3 container-fluid">
+            <div class="about-menu">
+                <div class="menu-title">
+                    GIỚI THIỆU
+                </div>
+                <div class="menu-list">
+                    <a href="{% url 'main:homepage'%}">Giới thiệu chung</a>
+                    <a href="#">Nhân sự</a>
+                    <a href="{% url 'main:dkkd' %}">Chứng nhận ĐKKD</a>
+                    <a href="{% url 'main:hdxd' %}">Chứng chỉ Năng lực Hoạt động XD</a>
+                    <a href="{% url 'main:lasxd' %}">Phòng thí nghiệm LAS-XD 799</a>
+                    <a href="{% url 'main:thietbi' %}">Trang thiết bị máy móc</a>
+                </div>
+            </div>
+        </div>
+        <div class="about mt-3 col-12 col-lg-9">
+            <div class="title mb-1">
+                <b style="color: #0E68B6;font-size: 16px;">NHÂN SỰ CÔNG TY</b>
+            </div>
+            <div class="about-content mb-5">
+                <p>
+                    Công ty có một đội ngũ cán bộ kỹ thuật giỏi có nhiều kinh nghiệm, có đủ năng lực để tổ chức thiết kế, thẩm tra, giám sát, kiểm định và đánh giá chất lượng các công trình phức tạp đòi hỏi kỹ thuật cao theo các tiêu chuẩn kỹ thuật hiện hành tại Việt Nam và trên thế giới. Ngoài lực lượng chính là cán bộ của Công ty, Công ty còn kết hợp với đội ngũ chuyên gia gồm: Các Giáo sư, Tiến sĩ, Thạc sĩ, Kỹ sư là các cán bộ giảng dạy, nghiên cứu thuộc các chuyên ngành của Trường Đại học Công nghệ Giao thông vận tải.
+                </p>
+                <p>Hiện nay cơ cấu cán bộ của công ty bao gồm:</p>
+                <div class="project table-responsive mt-3">
+                    <table class="table mt-1 table-bordered table-responsive">
+                        <thead class="table-primary">
+                            <th>STT</th>
+                            <th>Họ và tên</th>
+                            <th>Năm sinh</th>
+                            <th>Trình độ chuyên môn</th>
+                            <th>Chức danh</th>
+                            <th>Năm kinh nghiệm</th>
+                            <th>Ghi chú</th>
+                        </thead>
+                        <tbody>
+                            {% for i in nhansu %}
+                            <tr>
+                                <td>{{ i.STT }}</td>
+                                <td>{{ i.Name }}</td>
+                                <td style="text-align: center;">{{ i.BirthYear }}</td>
+                                <td>{{ i.Degree }}</td>
+                                <td>{{ i.Title }}</td>
+                                <td style="text-align: center;">{{ i.Experience }}</td>
+                                <td>{{ i.Note|default_if_none:"" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        
+    </div>
+    
+</div>
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

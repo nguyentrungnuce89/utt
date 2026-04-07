@@ -1,0 +1,161 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+.contact-head{
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 2px solid #F17E26;
+    padding: 6px 0px;
+}
+.map-container{
+    position:relative;
+    width:100%;
+    height:450px;
+}
+
+.map-container iframe{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border:0;
+}
+
+.contact-title{
+    color:#1a33cc;
+    font-weight:700;
+}
+
+.contact-desc{
+    color:#1a33cc;
+    font-size:16px;
+}
+
+.contact-desc span{
+    color:red;
+    font-weight:700;
+}
+
+.form-control{
+    background:#efefef;
+    padding:12px;
+    font-size:14px;
+}
+
+textarea.form-control{
+    height:180px;
+}
+
+.btn-contact{
+    background:#2f6b3f;
+    color:white;
+    font-weight:700;
+    padding:12px 25px;
+    font-size: 14px;
+}
+
+.btn-contact:hover{
+    background:#255733;
+    color: white;
+}
+</style>
+
+{% endblock %} 
+{% block title %}Liên hệ{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container mt-2">
+    <span class="contact-head">LIÊN HỆ</span>
+    <div class="map-container mt-4">
+    <iframe
+        src="https://maps.google.com/maps?q=54%20Triều%20Khúc%20Hà%20Nội&t=&z=17&ie=UTF8&iwloc=&output=embed"
+        width="100%"
+        height="350"
+        style="border:0;"
+        loading="lazy">
+    </iframe>
+    </div>
+    <div class="row contact-us">
+        <div class="col-12 col-md-6 mt-4 mb-5">
+            <div class="text-center mb-4">
+                <h5 class="contact-title">LIÊN HỆ VỚI CHÚNG TÔI</h5>
+            </div>
+
+            <h6 class="contact-title mb-3">ĐỂ LẠI THÔNG TIN</h6>
+
+            <p class="contact-desc">
+            Nếu bạn có nhu cầu <span>Thí nghiệm – Kiểm định</span> hãy để lại thông tin, chúng tôi sẽ liên lạc lại với bạn sớm nhất có thể.
+            </p>
+
+            <form method="POST" id="contactForm">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Họ và tên" name="fullname">
+                </div>
+
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Số điện thoại" name="phone">
+                </div>
+
+                <div class="mb-3">
+                    <input type="email" class="form-control" placeholder="Email" name="email">
+                </div>
+
+                <div class="mb-3">
+                    <textarea class="form-control" placeholder="Nội dung" name="content"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-contact">
+                GỬI THÔNG TIN
+                </button>
+            </form>
+            <div id="responseMessage" style="margin-top: 15px;"></div>
+        </div>
+        <div class="col-12 col-md-6 mt-4 mb-5">
+            <p><h5 style="color: #1a33cc;font-weight: 600;">CÔNG TY CỔ PHẦN TƯ VẤN VÀ XÂY DỰNG CÔNG TRÌNH - UTT</h5></p>
+            <div class="contact-info" style="font-size: 16px;">
+                <p style="color: #1a33cc;"><b>Phòng thí nghiệm công trình LAS-XD 799</b></p>
+                <p style="color: #1a33cc;">Chuyên tư vấn, khảo sát, thiết kế, giám sát, kiểm định, thí nghiệm và thi công các công trình giao thông, dân dụng, công nghiệp và hạ tầng kỹ thuật.</p>
+                <p style="color: #1a33cc;"><b>Địa chỉ:</b> 54 phố Triều Khúc, phường Thanh Liệt, TP Hà Nội</p>
+                <p style="color: #1a33cc;"><b>Email:</b> cttvxdct@utt.edu.vn</p>
+                <p style="color: #1a33cc;"><b>Hotline:</b> <span><a href="tel:024.38549545" style="color: red;text-decoration: none;font-weight: 600;">024.38549545</a></span></p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock content %} {% block js %}
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const responseMsg = document.getElementById('responseMessage');
+
+    fetch('/contact/submit/', {  // Thay đổi URL này khớp với urls.py của bạn
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            responseMsg.innerHTML = '<p style="color: green;">Cảm ơn bạn! Chúng tôi sẽ liên hệ lại sớm.</p>';
+            this.reset(); // Xóa form sau khi gửi thành công
+        } else {
+            responseMsg.innerHTML = '<p style="color: red;">Có lỗi xảy ra, vui lòng thử lại.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+{% endblock %}

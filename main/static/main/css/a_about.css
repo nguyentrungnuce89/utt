@@ -1,0 +1,38 @@
+.about-content p{
+    font-size: 14px;
+}
+
+.about-menu{
+    border: 1px solid #cccccc;
+    padding: 12px;
+    box-shadow: 9px 9px #cccccc;
+    margin-bottom: 24px;
+}
+
+.menu-title{
+    background-color: #0E68B6;
+    color: white;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.menu-list{
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+}
+.menu-list a{
+    text-decoration: none;
+    color: black;
+    padding: 9px;
+    font-size: 14px;
+    border-bottom: 1px solid #cccccc;
+}
+.menu-list a:hover{
+    background-color: #DC2727;
+    color: white;
+}
+
+.about{
+    padding-left: 32px;
+}

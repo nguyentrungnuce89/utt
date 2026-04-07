@@ -1,0 +1,148 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+
+@media (max-width: 991px) {
+    .project-image img{
+        width: 100%;
+    }
+}
+</style>
+
+{% endblock %} 
+{% block title %}Dự án{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Công trình tiêu biểu</li>
+        </ol>
+    </nav>
+    <span class="page-head">CÁC DỰ ÁN ĐÃ THAM GIA</span>  
+    <div class="project table-responsive mt-3">
+        <table class="table mt-3 table-bordered table-responsive">
+            <thead class="table-primary">
+                <th>STT</th>
+                <th>TÊN DỰ ÁN</th>
+                <th>CHỦ ĐẦU TƯ</th>
+                <th style="min-width: 150px;">CÔNG VIỆC THỰC HIỆN</th>
+                <th>NGUỒN VỐN</th>
+                <th>TIẾN ĐỘ</th>
+            </thead>
+            <tbody>
+                {% for group,projects in groups.items %}
+                <tr>
+                    <td colspan="6"><b>{{ group }}</b></td>
+                </tr>
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.STT }}</td>
+                    <td>{{ project.Name }}</td>
+                    <td>{{ project.Investor }}</td>
+                    <td>{{ project.Job }}</td>
+                    <td>{{ project.FundBy }}</td>
+                    <td>{{ project.Progress }}</td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="project-image mt-3">
+        <span class="page-head">HÌNH ẢNH THÍ NGHIỆM KIỂM ĐỊNH</span>  
+        <div class="image-section text-center mt-3 mb-3 row px-3 card-group">
+            <div class="card col-12 col-lg-8 mb-1" style="border: none;">
+                <img src="{% static 'main\img\project\1.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Kiểm tra cường độ bê tông bằng phương pháp bắn súng bật nảy Dự án đường cao tốc Hạ Long – Vân Đồn</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-1" style="border: none;">
+                <img src="{% static 'main\img\project\2.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Kiểm tra độ đồng nhất của bê tông bằng phương pháp siêu âm Dự án đường cao tốc Hạ Long – Vân Đồn</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-1" style="border: none;">
+                <img src="{% static 'main\img\project\3.png' %}" height="400px" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Khoan kiểm tra chất lượng bê tông nhựa Dự án đường cao tốc Hạ Long – Vân Đồn</p>
+            </div>
+        </div>
+        <div class="image-section text-center mb-3 row px-3 card-group">
+            <div class="card col-12 col-lg-8 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\4.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Xác định cường độ kết cấu mặt đường bằng thiết bị đo động FWD Dự án Phát triển giao thông xanh Thành phố Hồ Chí Minh</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\5.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Xác định cường độ kết cấu mặt đường bằng thiết bị đo động FWD Dự án Phát triển giao thông xanh Thành phố Hồ Chí Minh</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\6.png' %}" height="400px" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Kiểm tra độ chặt lớp nền đường bằng phương pháp dao vòng Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+        </div>
+        <div class="image-section text-center mb-3 row px-3 card-group">
+            <div class="card col-12 col-lg-8 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\7.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Kiểm tra độ chặt lớp móng đường bằng phương pháp rót cát Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\8.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Đo võng tĩnh Cầu vượt đường sắt Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\9.png' %}" height="400px" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Đo võng tĩnh Cầu Hòa Bình Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+        </div>
+        <div class="image-section text-center mb-3 row px-3 card-group">
+            <div class="card col-12 col-lg-8 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\10.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Kiểm tra độ chặt lớp móng đường bằng phương pháp rót cát Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\11.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Đo võng tĩnh Cầu vượt đường sắt Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\12.png' %}" height="400px" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Đo võng tĩnh Cầu Hòa Bình Dự án đường trục phía Nam tỉnh Hà Tây</p>
+            </div>
+        </div>
+        <div class="image-section text-center mb-3 row px-3 card-group">
+            <div class="card col-12 col-lg-8 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\13.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Thí nghiệm kiểm tra chất lượng sơn kẻ đường Dự án Quản lý tài sản đường bộ Việt Nam (VRAMP) sử dụng vốn ngân hàng thế giới</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\14.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Thí nghiệm kiểm tra chất lượng sơn kẻ đường Dự án Quản lý tài sản đường bộ Việt Nam (VRAMP) sử dụng vốn ngân hàng thế giới</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\15.png' %}" height="400px" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Thí nghiệm kiểm tra chất lượng biển báo hiệu Dự án Quản lý tài sản đường bộ Việt Nam (VRAMP) sử dụng vốn ngân hàng thế giới</p>
+            </div>
+        </div>
+        <div class="image-section text-center mb-3 row px-3 card-group">
+            <div class="card col-12 col-lg-8 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\16.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Thí nghiệm nén tĩnh thử tải cọc bê tông bằng phương pháp chất tải</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\18.png' %}"  class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Thí nghiệm kiểm tra chất lượng cọc bê tông bằng phương pháp siêu âm</p>
+            </div>
+            <div class="card col-12 col-lg-4 mb-3" style="border: none;">
+                <img src="{% static 'main\img\project\19.png' %}" height="400px" class="card-img-top w-100 h-100" style="object-fit: cover;">
+                <p class="mt-1 card-text">Thí nghiệm cọc khoan nhồi bằng phương pháp thử động biến dạng lớn (PDA)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

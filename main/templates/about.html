@@ -1,0 +1,110 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+</style>
+<link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+{% endblock %} 
+{% block title %}Giới thiệu{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
+            <li class="breadcrumb-item active" aria-current="page">Giới thiệu chung</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="about-menu-wrapper col-12 col-lg-3 mt-3 container-fluid">
+            <div class="about-menu">
+                <div class="menu-title">
+                    GIỚI THIỆU
+                </div>
+                <div class="menu-list">
+                    <a href="#">Giới thiệu chung</a>
+                    <a href="{% url 'main:nhansu' %}">Nhân sự</a>
+                    <a href="{% url 'main:dkkd' %}">Chứng nhận ĐKKD</a>
+                    <a href="{% url 'main:hdxd' %}">Chứng chỉ Năng lực Hoạt động XD</a>
+                    <a href="{% url 'main:lasxd' %}">Phòng thí nghiệm LAS-XD 799</a>
+                    <a href="{% url 'main:thietbi' %}">Trang thiết bị máy móc</a>
+                </div>
+            </div>
+        </div>
+        <div class="about mt-3 col-12 col-lg-9">
+            <div class="title mb-1">
+                <b style="color: #0E68B6;font-size: 16px;">GIỚI THIỆU CÔNG TY CỔ PHẦN TƯ VẤN VÀ XÂY DỰNG CÔNG TRÌNH - UTT</b>
+            </div>
+            <div class="about-content mb-5">
+                <p class="mb-2"><b>I. Thông tin chung:</b></p>
+                <p class="mb-2"><b>1. Tên công ty:</b></p>
+                <p class="mb-2">Tên công ty: <b>Công ty Cổ phần Tư vấn và Xây dựng công trình - UTT</b></p>
+                <p class="mb-2">Tên tiếng Anh: <b>UTT CONSULTING AND CONSTRUCTION JOINT STOCK COMPANY</b></p>
+                <p class="mb-2">Tên viết tắt: <b>UTT CAC.,JSC</b></p>
+                <p class="mb-2"><b>2. Trụ sở Công ty:</b></p>
+                <p class="mb-2">Địa chỉ: Số 54 phố Triều Khúc, phường Thanh Liệt, thành phố Hà Nội</p>
+                <p class="mb-2">Điện thoại: 024.38549545&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fax: 024.35527011</p>
+                <p class="mb-2">Website: www.uttjsc.vn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email: cttvxdct@utt.edu.vn</p>   
+                <p class="mb-2"><b>3. Ngành nghề kinh doanh:</b></p> 
+                <p class="mb-2">Giấy chứng nhận đăng ký doanh nghiệp số 0100863835 do Sở kế hoạch và đầu tư thành phố Hà Nội cấp thay đổi lần thứ 6 ngày 25/01/2021, Công ty hoạt động sản xuất kinh doanh với các ngành nghề kinh doanh chính như sau:</p>
+                <p class="mb-2 ps-5">+ Khảo sát địa hình, địa chất, thủy văn công trình;</p>
+                <p class="mb-2 ps-5">+ Lập tổng dự toán các công trình xây dựng;</p>
+                <p class="mb-2 ps-5">+ Tư vấn quản lý dự án đầu tư xây dựng các công trình giao thông; công trình hạ tầng kỹ thuật; công trình dân dụng và công nghiệp;</p>
+                <p class="mb-2 ps-5">+ Khảo sát, thiết kế các công trình cầu, đường bộ; công trình hầm giao thông; các công trình phụ trợ trên đường;</p>
+                <p class="mb-2 ps-5">+ Thiết kế các công trình dân dụng, công nghiệp và hạ tầng kỹ thuật;</p>
+                <p class="mb-2 ps-5">+ Giám sát thi công xây dựng các công trình Giao thông; dân dụng; công nghiệp và hạ tầng kỹ thuật;</p>
+                <p class="mb-2 ps-5">+ Thí nghiệm để cung cấp thông số kỹ thuật về vật liệu, kết cấu công trình;</p>
+                <p class="mb-2 ps-5">+ Tư vấn kiểm định chất lượng công trình giao thông; công trình hạ tầng kỹ thuật; công trình dân dụng và công nghiệp;</p>
+                <p class="mb-2 ps-5">+ Tư vấn thẩm tra dự án đầu tư; hồ sơ thiết kế xây dựng và tổng dự toán các công trình giao thông; công trình hạ tầng kỹ thuật; công trình dân dụng và công nghiệp;</p>
+                <p class="mb-2 ps-5">+ Tư vấn lập hồ sơ mời thầu, đánh giá hồ sơ thầu các công trình giao thông; công trình hạ tầng kỹ thuật; công trình dân dụng và công nghiệp;</p>
+                <p class="mb-2 ps-5">+ Chứng nhận đủ điều kiện đảm bảo an toàn chịu lực và chứng nhận sự phù hợp về chất lượng các công trình giao thông; công trình hạ tầng kỹ thuật; công trình dân dụng và công nghiệp;</p>
+                <p class="mb-2 ps-5">+ Xây dựng công trình giao thông; công trình dân dụng và công nghiệp; công trình hạ tầng kỹ thuật;</p>
+                <p class="mb-2 ps-5">+ Tư vấn về môi trường;</p>
+                <p class="mb-2 ps-5">+ Tư vấn lập báo cáo đánh giá tác động môi trường;</p>
+                <p class="mb-2 ps-5">+ Dịch vụ thẩm tra an toàn giao thông;</p>
+                <p class="mb-2 ps-5">+ Chuẩn bị mặt bằng;</p>
+                <p class="mb-2 ps-5">+ Lắp đặt hệ thống điện;</p>
+                <p class="mb-2 ps-5">+ Lắp đặt hệ thống cấp, thoát nước;</p>
+                <p class="mb-2 ps-5">+ Hoàn thiện công trình xây dựng dân dụng, công nghiệp;</p>
+                <p class="mb-2 ps-5">+ Vận tải hàng hóa bằng ô tô;</p>
+                <p class="mb-2 ps-5">+ Cho thuê xe ôtô và xe có động cơ khác;</p>
+                <p class="mb-2 ps-5">+ Cho thuê máy móc; thiết bị;</p>
+                <p class="mb-2 ps-5">+ Thiết kế quy hoạch xây dựng; thiết kế kiến trúc công trình;</p>
+                <p class="mb-2 ps-5">+ Lập dự án đầu tư xây dựng công trình giao thông; công trình hạ tầng kỹ thuật; công trình dân dụng và công nghiệp.</p>
+                <p class="mb-2"><b>II. Quá trình hình thành và phát triển:</b></p>
+                <p class="mb-2"><b>1. Trước năm 1998</b></p>
+                <p class="mb-2">Khi Công ty chưa thành lập (trước năm 1998), Trường Cao đẳng Giao thông vận tải được Bộ Giao thông vận tải, Ban Quản lý dự án và một số Sở Giao thông vận tải tạo điều kiện giúp đỡ cho Nhà trường được thiết kế, thi công một số công trình cầu, đường để gắn lý thuyết đang đào tạo trong Nhà trường với thực tiễn ngoài sản xuất, tạo điều kiện nâng cao trình độ cho đội ngũ giáo viên của Nhà trường; đồng thời nâng cao năng lực thực hành cho học sinh, sinh viên của Nhà trường.</p>
+                <p class="mb-2">Một số công trình tiêu biểu Nhà trường đã thực hiện như:</p>
+                <p class="mb-2 ps-5">+ Khảo sát, thiết kế dự án Đường Bắc Thăng Long – Nội Bài; thi công 1km đường và 01 cầu thuộc dự án này.</p>
+                <p class="mb-2 ps-5">+ Khảo sát, thiết kế quốc lộ 183, địa phận tỉnh Hải Dương; thi công 2km đường và 01 cầu thuộc dự án này.</p>
+                <p class="mb-2 ps-5">+ Thi công 02 cầu đường sắt và 02km đường sắt tuyến Hà Nội – Lạng Sơn, thuộc địa phận Đồng Đăng, Lạng Sơn.</p>
+                <p class="mb-2">Các công trình do Nhà trường thực hiện được các chủ đầu tư đánh giá cao về kỹ thuật, chất lượng, tiến độ và hiệu quả kinh tế.</p>
+                <p class="mb-2"><b>2. Từ năm 1998 - 2011</b></p>
+                <p class="mb-2">Căn cứ quyết định số 68/1998/QĐ-TTg ngày 27 tháng 3 năm 1998 của Thủ tướng Chính phủ về việc cho phép thí điểm thành lập Doanh nghiệp nhà nước trong các cơ sở đào tạo, cơ sở nghiên cứu; Bộ Giao thông vận tải quyết định thí điểm thành lập Doanh nghiệp nhà nước: “Công ty Xây dựng công trình Giao thông, trực thuộc Trường Cao đẳng Giao thông vận tải” tại quyết định số 2863/1998/QĐ-BGTVT ngày 11 tháng 11 năm 1998.</p>
+                <p class="mb-2 ps-5">+ Ngày 29 tháng 11 năm 1999 Công ty Xây dựng công trình Giao thông, trực thuộc Trường Cao đẳng Giao thông vận tải được Bộ Giao thông vận tải quyết định bổ sung nhiệm vụ tại quyết định số 3345/QĐ-BGTVT;</p>
+                <p class="mb-2 ps-5">+ Giấy phép đăng ký kinh doanh số 112432 do Sở Kế hoạch và đầu tư Hà Nội cấp ngày 24/12/1998;</p>
+                <p class="mb-2 ps-5">+ Mã số thuế 0100863835 do Cục thuế thành phố Hà Nội cấp ngày 12 tháng 3 năm 2004.</p>
+                <p class="mb-2"><b>3. Từ năm 2011 - 8/2015</b></p>
+                <p class="mb-2">Căn cứ Luật Doanh nghiệp số 60/2005/QH11 ngày 29 tháng 11 năm 2005 của Quốc hội Nước Cộng hòa xã hội chủ nghĩa Việt Nam; Bộ Giao thông vận tải quyết định chuyển “Công ty Xây dựng công trình Giao thông, trực thuộc Trường Cao đẳng Giao thông vận tải” thành “Công ty TNHH một thành viên Tư vấn và Xây dựng công trình” tại quyết định số 1773/QĐ-BGTVT ngày 25 tháng 6 năm 2010. Giấy chứng nhận đăng ký doanh nghiệp số 0100863835 do Sở Kế hoạch và Đầu tư thành phố Hà Nội cấp thay đổi lần thứ nhất ngày 06/01/2011 với nhiều ngành nghề kinh doanh: Khảo sát, thiết kế, thẩm tra, giám sát, thí nghiệm, kiểm định và thi công xây dựng các công trình giao thông, công trình hạ tầng kỹ thuật, công trình dân dụng và công nghiệp và một số ngành kinh tế khác.</p>
+                <p class="mb-2"><b>4. Từ tháng 8/2015 đến nay</b></p>
+                <p class="mb-2">Ngày 25/02/2014 Bộ trưởng Bộ GTVT ra Quyết định số 528/QĐ-BGTVT phê duyệt danh sách doanh nghiệp thực hiện cổ phần hóa đối với Công ty TNHH một thành viên Tư vấn và Xây dựng công trình. Sau khi cổ phần hóa, Công ty TNHH một thành viên Tư vấn và Xây dựng công trình được chuyển đổi thành Công ty Cổ phần Tư vấn và Xây dựng công trình – UTT; Giấy chứng nhận đăng ký doanh nghiệp số 0100863835 do Sở Kế hoạch và đầu tư thành phố Hà Nội cấp thay đổi lần thứ 2, ngày 07/7/2015; mã số doanh nghiệp: 0100863835; Bắt đầu hoạt động từ ngày 01/8/2015.</p>
+                <p class="mb-2"><b>5. Thành tựu nổi bật</b></p>
+                <p class="mb-2">Kể từ khi thành lập (11/11/1998) đến nay, Công ty luôn hoàn thành nhiệm vụ được giao, tạo được địa bàn giảng dạy thực hành cho học sinh, sinh viên của trường; gắn liền lý thuyết với thực tiễn; góp phần nâng cao chất lượng đào tạo của Trường. Do đó học sinh, sinh viên của trường khi tốt nghiệp đã phát huy rất tốt các kiến thức được học trong trường để vận dụng vào công việc thực tế sản xuất.</p>
+                <p class="mb-2">Ngoài ra, Công ty còn thực hiện chức năng sản xuất kinh doanh; kết quả hoạt động sản xuất kinh doanh hàng năm đều có lãi, bảo toàn và phát triển được nguồn vốn Nhà nước; các công trình do Công ty đảm nhận luôn đảm bảo kỹ thuật, chất lượng, tiến độ, đúng quy trình quy phạm, được các chủ đầu tư và các cơ sở sản xuất đánh giá cao.</p>
+                <p class="mb-2">Một số công trình tiêu biểu Công ty đã thực hiện như: Lập dự án khả thi tỉnh lộ 199, 200, 205 tỉnh Hưng Yên; tỉnh Hưng Yên; lập dự án đầu tư và thiết kế bản vẽ thi công 07km đường 392 tỉnh Hải Dương; giám sát thi công 08 cầu và 05km đường Quốc lộ 4G tỉnh Sơn La; giám sát thi công xây dựng công trình đoạn tuyến tránh thành phố Nam Định (Km88+000 – Km92+100); kiểm định 04 cầu trên tỉnh lộ 105 tỉnh Sơn La, 02 cầu trên đường vào khu Công nghiệp Mai Sơn tỉnh Sơn La, 02 cầu thuộc dự án Giao thông nông thôn tỉnh Sơn La, kiểm định 06 cầu cũ trên tuyến Quốc lộ 18, kiểm định chất lượng công trình Dự án đường cao tốc Hạ Long – Vân Đồn, kiểm định 16 cầu cũ tỉnh Bình Thuận, kiểm định chất lượng công trình Dự án đường trục phía Nam tỉnh Hà Tây, thí nghiệm vật liệu Dự án cao tốc Vân Đồn – Móng Cái, thí nghiệm vật liệu Dự án Khu đô thị sinh thái, nghỉ dưỡng, vui chơi giải trí cao cấp và du lịch biển Sầm Sơn, kiểm định 2 cầu tại QL32 tỉnh Phú Thọ, tư vấn kiểm định thử tải sau khi gia cường các cầu Dự án thành phần 1 thuộc Dự án đầu tư sửa chữa gia cường các cầu trên Quốc lộ đảm bảo đồng bộ tải trọng khai thác trên tuyến, Kiểm định và thử tải các cầu Dự án: Cải tạo, nâng cấp các cầu yếu và gia cố trụ chống va xô trên tuyến đường sắt Hà Nội – TP. Hồ Chí Minh và một số công trình khác.</p>
+                <p class="mb-2">Để phối hợp đẩy mạnh ứng dụng, chuyển giao hệ thống trang thiết bị kỹ thuật cùng Trường Đại học Công nghệ Giao thông vận tải, Công ty Cổ phần Tư vấn và Xây dựng công trình – UTT và Nhà trường đã ký Thỏa thuận hợp tác kết hợp thế mạnh và kinh nghiệm. Khi nhận được các dự án, đơn vị sẽ cử cán bộ có đủ năng lực, kinh nghiệm để thực hiện gói thầu, cung cấp những máy móc thiết bị tốt nhất để đáp ứng yêu cầu của dự án, cùng nhau triển khai thực hiện các công trình đảm bảo kỹ thuật, chất lượng và tiến độ.</p>
+            </div>
+
+        </div>
+
+        
+    </div>
+    
+</div>
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}

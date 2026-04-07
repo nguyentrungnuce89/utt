@@ -1,0 +1,93 @@
+body{
+    font-size: 13px;
+    font-family: sans-serif;
+    background-color: white;
+}
+.navbar{
+    background-color: #f17e27;
+}
+.navbar-nav{
+    background-color: #f17e27;
+
+}
+.nav-link{
+    color: white;
+    font-weight: 500;
+}
+.nav-link:hover{
+    color: rgba(255, 255, 255, 0.873);
+}
+
+.dropdown-menu {
+    border-radius: 0;
+    box-shadow: 2px;
+}
+
+.navbar .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 5px;
+}
+
+
+footer p{
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+.address{
+    font-size: 18px;
+}
+.text-center{
+    font-size: 14px;
+}
+
+/* Font bình thường */
+.navbar-nav .nav-link {
+    font-size: 16px;
+}
+
+
+.dropdown {
+    position: relative;
+}
+
+
+
+/* Khi màn hình nhỏ hơn 992px (lg breakpoint Bootstrap) */
+@media (max-width: 991.98px) {
+    .brand img{
+        width: 80%;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 75%;
+    }
+    .navbar-toggler{
+        font-size: 75%;
+    }
+    footer{
+        font-size: 75%;
+    }
+    .address{
+        font-size: 16px;
+    }
+
+    .dropdown-item {
+        font-size: 65%;
+        color: white;
+    }
+    .dropdown-menu {
+        background-color: #f17e27;
+        border: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+
+
+.page-head{
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 2px solid #F17E26;
+    padding: 6px 0px;
+}
