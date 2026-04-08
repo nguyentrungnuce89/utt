@@ -58,7 +58,9 @@
                             {% for i in nhansu %}
                             <tr>
                                 <td>{{ i.STT }}</td>
-                                <td>{{ i.Name }}</td>
+                                <td>
+                                    <a href="{% url 'main:nhansudetail' i.slug %}" style="text-decoration: none;color: blue;font-weight: 500;">{{ i.Name }}</a>
+                                </td>
                                 <td style="text-align: center;">{{ i.BirthYear }}</td>
                                 <td>{{ i.Degree }}</td>
                                 <td>{{ i.Title }}</td>

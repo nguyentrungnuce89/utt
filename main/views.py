@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 def HomePage(request):
@@ -17,6 +18,14 @@ def Nhansu(request):
         'nhansu':nhansu
     }
     return render(request,'a_nhansu.html',context)
+
+def NhansuDetail(request,slug):
+    from .models import HR
+    member = get_object_or_404(HR, slug=slug)
+    context = {
+        'i':member
+    }
+    return render(request,'nhansu_detail.html',context)
 
 def Dkkd(request):
     context = {}

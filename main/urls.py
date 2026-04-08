@@ -9,6 +9,7 @@ urlpatterns = [
     path('',views.HomePage,name='homepage'),
     path('gioithieu/',views.About,name='about'),
     path('gioithieu/nhansu/',views.Nhansu,name='nhansu'),
+    path('gioithieu/nhansu/<slug:slug>',views.NhansuDetail,name='nhansudetail'),
     path('gioithieu/dangkykinhdoanh/',views.Dkkd,name='dkkd'),
     path('gioithieu/ccnlhdxd/',views.Hdxd,name='hdxd'),
     path('gioithieu/lasxd799/',views.Lasxd,name='lasxd'),

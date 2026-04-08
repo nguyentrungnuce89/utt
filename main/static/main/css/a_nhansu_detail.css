@@ -1,0 +1,101 @@
+.profile-card {
+    width: 100%;
+    max-width: 1100px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.info-card {
+    width: 100%;
+    max-width: 1100px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Ảnh bìa */
+.cover-photo img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Khối nội dung trắng bên dưới */
+.profile-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    align-items: center;
+    border-top: 4px solid #eee; /* Đường kẻ phân cách nhẹ */
+}
+
+.profile-main {
+    display: flex;
+    align-items: center;
+}
+
+/* Tạo hình khung ảnh trống (No Photo) */
+.avatar-container {
+    margin-right: 20px;
+}
+
+.avatar-placeholder {
+    width: 100px;
+    height: 120px;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    color: #adb5bd;
+}
+
+.user-icon {
+    font-size: 40px;
+    font-style: normal;
+}
+
+.avatar-placeholder span {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Typography */
+.name {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 500;
+}
+
+.title {
+    margin: 5px 0 0 0;
+    color: #777;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.org-section {
+    text-align: left;
+    max-width: 50%;
+}
+
+.org-name {
+    margin: 0;
+    font-size: 20px;
+    color: #444;
+    font-weight: 500;
+}
+
+.unit {
+    margin: 5px 0 0 0;
+    color: #888;
+    font-size: 14px;
+}

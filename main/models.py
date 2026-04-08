@@ -40,13 +40,32 @@ year = models.IntegerField(
 class HR(models.Model):
     Name = models.CharField(max_length=200)
     STT = models.IntegerField()
+    Sex = models.CharField(max_length=20,default='Nam',choices=(('Nam','Nam'),('Nữ','Nữ')))
     BirthYear = models.IntegerField()
     Experience = models.PositiveIntegerField()
     Degree = models.CharField(max_length=200)
     Title = models.CharField(max_length=200)
     Note = models.TextField(blank=True,null=True)
     Visibility = models.BooleanField(default=True)
+    Photo = models.ImageField(blank=True,null=True,upload_to='NhanSu')
+    slug = models.SlugField(unique=True, max_length=255, blank=True)
+    Unit = models.CharField(max_length=100,blank=True,null=True)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # Tạo slug cơ bản ban đầu
+            base_slug = slugify(self.Name)
+            slug = base_slug
+            count = 1
+            
+            # Vòng lặp kiểm tra: nếu slug đã tồn tại thì tăng số thứ tự
+            while HR.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{count}"
+                count += 1
+            
+            self.slug = slug
+        
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.STT} - {self.Name}'

@@ -1,0 +1,68 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+</style>
+<link rel="stylesheet" href="{% static 'main/css/a_nhansu_detail.css' %}?{% now "U" %}">
+{% endblock %} 
+{% block title %}{{ i.Name }}{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container mt-3 px-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage' %}">Trang chủ</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'main:about' %}"></a>Giới thiệu</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'main:nhansu' %}"></a>Nhân sự</li>
+            <li class="breadcrumb-item active" aria-current="page">{{i.Name }}</li>
+        </ol>
+    </nav>
+    <div class="content my-4">
+        <div class="profile-card">
+            <div class="cover-photo">
+                <img src="{% static 'main/img/banner_2.png' %}" alt="University Campus">
+            </div>
+
+            <div class="profile-body">
+                <div class="profile-main">
+                    <div class="avatar-container">
+                        <div class="avatar-placeholder">
+                            <i class="user-icon">👤</i>
+                            <span>No Photo</span>
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h2 class="name">{{ i.Name }}</h2>
+                        <p class="title">{{ i.Degree }}</p>
+                    </div>
+                </div>
+
+                <div class="org-section">
+                    <h3 class="org-name">Công ty Cổ phần Tư vấn và Xây dựng công trình - UTT</h3>
+                    <p class="unit">{{ i.Unit }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="info-card" style="margin-top: 32px;margin-bottom: 32px;">
+            <div class="row" style="padding: 32px;">
+                <div class="col-12 col-lg-6">
+                    <p><b><i class="fa-solid fa-user"></i>&nbsp;Năm sinh:</b> {{i.BirthYear}}</p>
+                    <p><b><i class="fa-solid fa-circle-user"></i>&nbsp;Giới tính:</b> {{i.Sex}}</p>
+                    <p><b><i class="fa-solid fa-suitcase"></i>&nbsp;Số năm kinh nghiệm:</b> {{i.Experience}}</p>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <p><b><i class="fa-solid fa-house"></i>&nbsp;Đơn vị:</b> {{i.Unit}}</p>
+                    <p><b><i class="fa-solid fa-location-pin"></i>&nbsp;Cơ sở:</b> Hà Nội</p>
+                    <p><b><i class="fa-solid fa-user-tie"></i>&nbsp;Chức vụ:</b> {{i.Title}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %} {% block js %}
+<script></script>
+{% endblock %}
