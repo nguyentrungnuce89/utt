@@ -20,12 +20,15 @@ def Nhansu(request):
     return render(request,'a_nhansu.html',context)
 
 def NhansuDetail(request,slug):
-    from .models import HR
+    from .models import HR,Degree
     member = get_object_or_404(HR, slug=slug)
+    degrees = Degree.objects.filter(Owner=member).order_by('-Date')
+
     context = {
-        'i':member
+        'i':member,
+        'degrees': degrees,
     }
-    return render(request,'nhansu_detail.html',context)
+    return render(request,'nhansu_detail_new.html',context)
 
 def Dkkd(request):
     context = {}
