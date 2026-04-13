@@ -49,6 +49,7 @@
                                 <th>Số lượng</th>
                                 <th>Tình trạng hoạt động</th>
                                 <th>Ghi chú</th>
+                                <th>Chi tiết</th>
                             </thead>
                             <tbody>
                                 {% for group,tbs in thietbi.items %}
@@ -63,6 +64,7 @@
                                     <td style="text-align:center">{{ tb.SoLuong }}</td>
                                     <td style="text-align:center">{{ tb.TinhTrang }}</td>
                                     <td>{{ tb.GhiChu|default_if_none:'' }}</td>
+                                    <td><a href="{% url 'main:thietbidetail' tb.id %}" style="color: blue;">Xem</a></td>
                                 </tr>
                                 {% endfor %}
                                 {% endfor %}

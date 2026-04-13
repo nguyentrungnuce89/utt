@@ -54,6 +54,14 @@ def Thietbi(request):
     }
     return render(request,'a_thietbi.html',context)
 
+def ThietbiDetail(request,id):
+    from .models import ThietBi
+    ins = get_object_or_404(ThietBi,id=id)
+    context = {
+        'i':ins
+    }
+    return render(request,'thietbi_detail.html',context)
+
 def Project(request):
     from .models import Project
     projects = Project.objects.filter(Visibility=True).order_by('Type', 'STT')
