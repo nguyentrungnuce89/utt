@@ -65,7 +65,7 @@
                         <i class="fa-regular fa-file" style="font-size: medium;"></i>
                     </div>
                     <div>
-                        <div class="fw-medium">{{hc.Ten}} - {{hc.So}}&nbsp;&nbsp;<a href="{{ d.File.url }}" style="color: blue;">Xem tệp</a></div>
+                        <div class="fw-medium">{{hc.Ten}} {{hc.So|default_if_none:""}}&nbsp;&nbsp;<a href="{{ d.File.url }}" style="color: blue;">Xem tệp</a></div>
                     </div>
                 </div>
                 {% endfor %}
