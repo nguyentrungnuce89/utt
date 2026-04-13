@@ -59,14 +59,16 @@
             {% if i.HieuChuan %}
             <div class="email-section">
                 <h6 class="fw-bold mb-4">Giấy hiệu chuẩn</h6>
+                {% for hc in hcs %}
                 <div class="d-flex align-items-center mb-4">
                     <div class="email-icon me-3">
                         <i class="fa-regular fa-file" style="font-size: medium;"></i>
                     </div>
                     <div>
-                        <div class="fw-medium">{{i.HieuChuan}}&nbsp;&nbsp;<a href="{{ d.File.url }}" style="color: blue;">Xem tệp</a></div>
+                        <div class="fw-medium">{{hc.Ten}} - {{hc.So}}&nbsp;&nbsp;<a href="{{ d.File.url }}" style="color: blue;">Xem tệp</a></div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
             {% endif %}
 

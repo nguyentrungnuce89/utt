@@ -121,12 +121,22 @@ class ThietBi(models.Model):
     SoLuong = models.IntegerField(default=1)
     TinhTrang = models.CharField(max_length=250,blank=True,null=True)
     Visibility = models.BooleanField(default=True)
-    HieuChuan = models.FileField(upload_to='HieuChuan',blank=True,null=True)
     HinhAnh = models.ImageField(upload_to='AnhThietBi',blank=True,null=True)
     GhiChu = models.TextField(blank=True,null=True)
 
     def __str__(self):
-        return f'{self.STT} - {self.Ten} - {self.Nhom}'
+        return f'{self.Ten} - {self.Nhom}'
+    
+class HieuChuan(models.Model):
+    Ten = models.CharField(max_length=250,default='Giấy chứng nhận hiệu chuẩn')
+    So = models.CharField(max_length=100,blank=True,null=True)
+    Ngay = models.DateField(blank=True,null=True)
+    HetHan = models.DateField(blank=True,null=True)
+    May = models.ForeignKey(ThietBi,on_delete=models.CASCADE)
+    File = models.FileField(upload_to='HieuChuan',blank=True,null=True)
+
+    def __str__(self):
+        return f'{self.May} - {self.Ngay} - {self.So}'
     
 class Contact(models.Model):
     fullname = models.CharField(max_length=255, verbose_name="Họ và tên")

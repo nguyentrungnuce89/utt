@@ -55,10 +55,12 @@ def Thietbi(request):
     return render(request,'a_thietbi.html',context)
 
 def ThietbiDetail(request,id):
-    from .models import ThietBi
+    from .models import ThietBi,HieuChuan
     ins = get_object_or_404(ThietBi,id=id)
+    hieuchuan = HieuChuan.objects.filter(May=ins).order_by('-Ngay')
     context = {
-        'i':ins
+        'i':ins,
+        'hcs':hieuchuan
     }
     return render(request,'thietbi_detail.html',context)
 
