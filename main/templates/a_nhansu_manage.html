@@ -3,10 +3,15 @@
 {% load static %}
 <style>
   /* PAGE CSS */
+#sortable tr {
+    cursor: move;
+}
 </style>
 <link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+<!-- SortableJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 {% endblock %} 
-{% block title %}Nhân sự{% endblock %} 
+{% block title %}Quản lý nhân sự{% endblock %} 
 {% block content %} 
 {% load humanize %}
 {% load static %}
@@ -14,8 +19,9 @@
     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
-            <li class="breadcrumb-item active" aria-current="page">Nhân sự</li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'main:homepage'%}">Giới thiệu</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'main:nhansu'%}">Nhân sự</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Quản lý</li>
         </ol>
     </nav>
     <div class="row">
@@ -36,12 +42,7 @@
         </div>
         <div class="about mt-3 col-12 col-lg-9">
             <div class="title mb-1">
-                <b style="color: #0E68B6;font-size: 16px;">
-                    NHÂN SỰ CÔNG TY
-                    {% if user.is_authenticated %}
-                    &nbsp;<a href="{% url 'main:nhansumanage' %}" style="text-decoration: none;color: blue;"><i class="fa-regular fa-pen-to-square"></i></a>
-                    {% endif %}
-                </b>
+                <b style="color: #0E68B6;font-size: 16px;">QUẢN LÝ NHÂN SỰ CÔNG TY</b>
             </div>
             <div class="about-content mb-5">
                 <p>
@@ -57,11 +58,11 @@
                             <th>Trình độ chuyên môn</th>
                             <th>Chức danh</th>
                             <th>Năm kinh nghiệm</th>
-                            <th>Ghi chú</th>
+                            <th>Hành động</th>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable">
                             {% for i in nhansu %}
-                            <tr>
+                            <tr data-id="{{ i.id }}">
                                 <td>{{ i.STT }}</td>
                                 <td>
                                     <a href="{% url 'main:nhansudetail' i.slug %}" style="text-decoration: none;color: blue;font-weight: 500;">{{ i.Name }}</a>
@@ -70,7 +71,9 @@
                                 <td>{{ i.Degree }}</td>
                                 <td>{{ i.Title }}</td>
                                 <td style="text-align: center;">{{ i.Experience }}</td>
-                                <td>{{ i.Note|default_if_none:"" }}</td>
+                                <td style="text-align: center;">
+                                    <a href="" style="text-decoration: none;color: blue;"><i class="fa-regular fa-pen-to-square"></i></a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -86,5 +89,62 @@
 </div>
 
 {% endblock content %} {% block js %}
-<script></script>
+<script>
+const el = document.getElementById('sortable');
+
+new Sortable(el, {
+    animation: 150,
+
+    onEnd: function () {
+        let ids = [];
+
+        document.querySelectorAll('#sortable tr').forEach(row => {
+            ids.push(row.getAttribute('data-id'));
+        });
+
+        // ✅ FIX: tạo params đúng cách
+        let params = new URLSearchParams();
+        ids.forEach(id => {
+            params.append('ids[]', id);
+        });
+
+        fetch("{% url 'main:reorder_nhansu' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": getCSRFToken()
+            },
+            body: params
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Updated", data);
+            const tbody = document.getElementById('sortable');
+            // không cần reload nữa
+            location.reload();
+
+            // update STT luôn trên UI
+            // document.querySelectorAll('#sortable tr').forEach((row, index) => {
+            //     let sttCell = row.querySelector('.stt');
+            //     if (sttCell) {
+            //         sttCell.innerText = index + 1;
+            //     }
+            // });
+        });
+    }
+});
+
+// Lấy CSRF token từ cookie
+    function getCSRFToken() {
+        let name = 'csrftoken';
+        let cookies = document.cookie.split(';');
+
+        for (let cookie of cookies) {
+            let c = cookie.trim();
+            if (c.startsWith(name + '=')) {
+                return c.substring(name.length + 1);
+            }
+        }
+        return '';
+}
+</script>
 {% endblock %}

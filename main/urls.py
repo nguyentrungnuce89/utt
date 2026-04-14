@@ -9,6 +9,7 @@ urlpatterns = [
     path('',views.HomePage,name='homepage'),
     path('gioithieu/',views.About,name='about'),
     path('gioithieu/nhansu/',views.Nhansu,name='nhansu'),
+    path('gioithieu/nhansu/manage/',views.NhansuManage,name='nhansumanage'),
     path('gioithieu/nhansu/<slug:slug>',views.NhansuDetail,name='nhansudetail'),
     path('gioithieu/trangthietbi/<int:id>',views.ThietbiDetail,name='thietbidetail'),
     path('gioithieu/dangkykinhdoanh/',views.Dkkd,name='dkkd'),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('thong-bao/',views.News,name='news'),
     path('thong-bao/<slug:slug>',views.NewsDetail,name='newsdetail'),
     path('lien-he/',views.Contact,name='contact'),
-    path('contact/submit/',views.Contact_submit)
+    path('contact/submit/',views.Contact_submit),
+    path('nhansu/reorder/',views.Reorder_nhansu,name='reorder_nhansu')
 ]
 

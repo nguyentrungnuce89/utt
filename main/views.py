@@ -19,6 +19,14 @@ def Nhansu(request):
     }
     return render(request,'a_nhansu.html',context)
 
+def NhansuManage(request):
+    from .models import HR
+    nhansu = HR.objects.all()
+    context = {
+        'nhansu':nhansu
+    }
+    return render(request,'a_nhansu_manage.html',context)
+
 def NhansuDetail(request,slug):
     from .models import HR,Degree
     member = get_object_or_404(HR, slug=slug)
@@ -119,6 +127,11 @@ def Contact(request):
     context={}
     return render(request,'contact.html',context)
 
+
+#_______FUNCTION_______________________________________________________________
+
+
+#_______API____________________________________________________________________
 def Contact_submit(request):
     from .models import Contact
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -141,3 +154,16 @@ def Contact_submit(request):
         return JsonResponse({'status': 'error', 'message': 'Vui lòng điền đủ thông tin.'}, status=400)
     
     return JsonResponse({'status': 'error', 'message': 'Yêu cầu không hợp lệ.'}, status=400)
+
+from django.views.decorators.http import require_POST
+from django.db import transaction
+
+@require_POST
+def Reorder_nhansu(request):
+    ids = request.POST.getlist('ids[]')
+    from .models import HR
+    with transaction.atomic():
+        for index, pk in enumerate(ids):
+            HR.objects.filter(pk=pk).update(STT=index + 1)
+
+    return JsonResponse({'status': 'ok'})
