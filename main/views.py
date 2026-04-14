@@ -23,7 +23,7 @@ def Nhansu(request):
 @login_required
 def NhansuManage(request):
     from .models import HR
-    nhansu = HR.objects.all()
+    nhansu = HR.objects.all().order_by('STT')
     context = {
         'nhansu':nhansu
     }
