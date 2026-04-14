@@ -14,7 +14,7 @@ def About(request):
 
 def Nhansu(request):
     from .models import HR
-    nhansu = HR.objects.filter(Visibility=True)
+    nhansu = HR.objects.filter(Visibility=True).order_by('STT')
     context = {
         'nhansu':nhansu
     }
@@ -160,6 +160,7 @@ def Contact_submit(request):
 from django.views.decorators.http import require_POST
 from django.db import transaction
 
+@login_required
 @require_POST
 def Reorder_nhansu(request):
     ids = request.POST.getlist('ids[]')
