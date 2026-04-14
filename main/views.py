@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def HomePage(request):
@@ -19,6 +20,7 @@ def Nhansu(request):
     }
     return render(request,'a_nhansu.html',context)
 
+@login_required
 def NhansuManage(request):
     from .models import HR
     nhansu = HR.objects.all()
