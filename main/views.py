@@ -59,6 +59,8 @@ def Thietbi(request):
     nhomthietbi = defaultdict(list)
     for i in thietbis:
         nhomthietbi[i.Nhom].append(i)
+    for nhom in nhomthietbi:
+        nhomthietbi[nhom] = sorted(nhomthietbi[nhom], key=lambda x: x.STT)
     context = {
         'thietbi':dict(nhomthietbi)
     }
