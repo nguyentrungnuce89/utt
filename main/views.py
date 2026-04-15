@@ -30,13 +30,14 @@ def NhansuManage(request):
     return render(request,'a_nhansu_manage.html',context)
 
 def NhansuDetail(request,slug):
-    from .models import HR,Degree
+    from .models import HR,Degree,HopDong
     member = get_object_or_404(HR, slug=slug)
     degrees = Degree.objects.filter(Owner=member).order_by('-Date')
-
+    contracts = HopDong.objects.filter(NguoiKy=member)
     context = {
         'i':member,
         'degrees': degrees,
+        'contracts':contracts
     }
     return render(request,'nhansu_detail_new.html',context)
 

@@ -87,6 +87,21 @@
                 {% endfor %}
             </div>
             {% endif %}
+            {% if contracts %}
+            <div class="hopdong-section">
+                <h6 class="fw-bold mb-4">Hợp đồng lao động</h6>
+                {% for c in contracts %}
+                <div class="d-flex align-items-center mb-4">
+                    <div class="email-icon me-3">
+                        <i class="fa-regular fa-file" style="font-size: medium;"></i>
+                    </div>
+                    <div>
+                        <div class="fw-medium">Hợp đồng lao động&nbsp;&nbsp;<a href="{{ c.File.url }}" style="color: blue;">Xem tệp</a></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
 
     </div>
 </div>
