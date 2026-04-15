@@ -79,6 +79,14 @@ class Degree(models.Model):
 
     def __str__(self):
         return f'{self.Owner} - {self.Type} - {self.Name}'
+    
+class HopDong(models.Model):
+    NguoiKy = models.ForeignKey(HR,on_delete=models.CASCADE)
+    NgayKy = models.DateField(blank=True,null=True)
+    File = models.FileField(upload_to='hopdong/')
+
+    def __str__(self):
+        return f'{self.NguoiKy} - {self.NgayKy}'
 
 class Project(models.Model):
     project_type = (
@@ -100,7 +108,6 @@ class Project(models.Model):
 
     def __str__(self):
         return f'{self.STT} - {self.Name}'
-
 
 
 class PhepThu(models.Model):
