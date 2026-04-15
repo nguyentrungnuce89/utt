@@ -11,6 +11,50 @@
         width: 100%;
     }
 }
+
+.read-more-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.read-more-content {
+    max-height: 300px; /* Chiều cao hiển thị ban đầu */
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    position: relative;
+}
+
+/* Lớp phủ mờ dần */
+.read-more-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Độ cao của vùng mờ */
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none; /* Cho phép click xuyên qua lớp mờ */
+    transition: opacity 0.3s ease;
+}
+
+/* Nút bấm tùy chỉnh */
+.btn-continue {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Khi đã mở hết nội dung */
+.read-more-wrapper.is-expanded .read-more-content {
+    max-height: 5000px; /* Số lớn để chứa toàn bộ nội dung */
+}
+
+.read-more-wrapper.is-expanded .read-more-overlay {
+    opacity: 0; /* Ẩn lớp phủ mờ khi đã mở hết */
+}
 </style>
 
 {% endblock %} 
@@ -26,28 +70,34 @@
         </ol>
     </nav>
     <span class="page-head">DANH MỤC PHÉP THỬ PHÒNG THÍ NGHIỆM LAS-XD 799</span>  
-    <div class="project table-responsive mt-3">
-        <table class="table mt-3 table-bordered table-responsive">
-            <thead class="table-primary">
-                <th>STT</th>
-                <th style="min-width: 150px;">TÊN CHỈ TIÊU THÍ NGHIỆM</th>
-                <th>TIÊU CHUẨN KỸ THUẬT</th>
-            </thead>
-            <tbody>
-                {% for group,phepthus in groups.items %}
-                <tr>
-                    <td colspan="3"><b>{{ group }}</b></td>
-                </tr>
-                {% for i in phepthus %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ i.Ten }}</td>
-                    <td>{{ i.TCKT }}</td>
-                </tr>
-                {% endfor %}
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="read-more-wrapper" id="postWrapper">
+        <div class="project table-responsive mt-3 read-more-content" id="postContent">
+            <table class="table mt-3 table-bordered table-responsive">
+                <thead class="table-primary">
+                    <th>STT</th>
+                    <th style="min-width: 150px;">TÊN CHỈ TIÊU THÍ NGHIỆM</th>
+                    <th>TIÊU CHUẨN KỸ THUẬT</th>
+                </thead>
+                <tbody>
+                    {% for group,phepthus in groups.items %}
+                    <tr>
+                        <td colspan="3"><b>{{ group }}</b></td>
+                    </tr>
+                    {% for i in phepthus %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.Ten }}</td>
+                        <td>{{ i.TCKT }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="read-more-overlay" id="postOverlay"></div>
+        <div class="text-center mt-3">
+            <button class="btn-continue" id="btnContinue">Continue Reading</button>
+        </div>
     </div>
     <div class="document-att mt-3">
         <span class="page-head">GIẤY CHỨNG NHẬN PHÒNG THÍ NGHIỆM CHUYÊN NGÀNH</span>
@@ -59,5 +109,26 @@
     </div>
 </div>
 {% endblock content %} {% block js %}
-<script></script>
+<script>
+document.getElementById('btnContinue').addEventListener('click', function() {
+    const wrapper = document.getElementById('postWrapper');
+    const content = document.getElementById('postContent');
+    const btn = this;
+
+    if (!wrapper.classList.contains('is-expanded')) {
+        // MỞ NỘI DUNG
+        content.style.maxHeight = content.scrollHeight + "px";
+        wrapper.classList.add('is-expanded');
+        btn.textContent = "Show Less";
+    } else {
+        // ĐÓNG NỘI DUNG
+        content.style.maxHeight = "300px"; // Trở về chiều cao mặc định
+        wrapper.classList.remove('is-expanded');
+        btn.textContent = "Continue Reading";
+        
+        // Cuộn nhẹ lên đầu nội dung để khách không bị lạc chỗ
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});  
+</script>
 {% endblock %}
