@@ -57,7 +57,7 @@
                             <th>Trình độ chuyên môn</th>
                             <th>Chức danh</th>
                             <th>Năm kinh nghiệm</th>
-                            <th>Ghi chú</th>
+                            <th>Chi tiết</th>
                         </thead>
                         <tbody>
                             {% for i in nhansu %}
@@ -70,7 +70,7 @@
                                 <td>{{ i.Degree }}</td>
                                 <td>{{ i.Title }}</td>
                                 <td style="text-align: center;">{{ i.Experience }}</td>
-                                <td>{{ i.Note|default_if_none:"" }}</td>
+                                <td><a href="{% url 'main:nhansudetail' i.slug %}" style="color: blue;">Xem chi tiết</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>
