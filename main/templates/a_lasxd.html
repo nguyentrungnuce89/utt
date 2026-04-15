@@ -2,9 +2,55 @@
 {% block style %} 
 {% load static %}
 <style>
-  /* PAGE CSS */
+/* PAGE CSS */
+.read-more-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.read-more-content {
+    max-height: 300px; /* Chiều cao hiển thị ban đầu */
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    position: relative;
+}
+
+/* Lớp phủ mờ dần */
+.read-more-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Độ cao của vùng mờ */
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+    pointer-events: none; /* Cho phép click xuyên qua lớp mờ */
+    transition: opacity 0.3s ease;
+}
+
+/* Nút bấm tùy chỉnh */
+.btn-continue {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Khi đã mở hết nội dung */
+.read-more-wrapper.is-expanded .read-more-content {
+    max-height: 5000px; /* Số lớn để chứa toàn bộ nội dung */
+}
+
+.read-more-wrapper.is-expanded .read-more-overlay {
+    opacity: 0; /* Ẩn lớp phủ mờ khi đã mở hết */
+}
+
+
 </style>
 <link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+<link rel="stylesheet" href="{% static 'main/css/a_nhansu_detail.css' %}?{% now "U" %}">
 {% endblock %} 
 {% block title %}Phòng thí nghiệm LAS-XD 799{% endblock %} 
 {% block content %} 
@@ -35,20 +81,54 @@
             </div>
         </div>
         <div class="about mt-3 col-12 col-lg-9">
-            <div class="title mb-1">
+            <!-- <div class="title mb-1">
                 <b style="color: #0E68B6;font-size: 16px;">PHÒNG THÍ NGHIỆM VÀ KIỂM ĐỊNH XÂY DỰNG LAS-XD 799</b>
-            </div>
-            <div class="about-content mb-5">
-                <img src="{% static 'main/img/phapnhan/1.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/2.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/3.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/4.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/5.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/6.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/7.jpg' %}" alt="" width="90%">
-                <img src="{% static 'main/img/phapnhan/8.jpg' %}" alt="" width="90%">
-            </div>
+            </div> -->
+            <div class="custom-acc-item">
+                <span class="page-head">
+                    <a href="" style="text-decoration: none;color: black;">
+                        GIẤY CHỨNG NHẬN ĐỦ ĐIỀU KIỆN HOẠT ĐỘNG
+                    </a>
+                </span>
 
+                <div class="about-content mt-3 mb-5 read-more-wrapper" id="postWrapper">
+                    <div class="read-more-content" id="postContent">
+                        <img src="{% static 'main/img/phapnhan/1.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/2.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/3.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/4.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/5.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/6.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/7.jpg' %}" alt="" width="90%">
+                        <img src="{% static 'main/img/phapnhan/8.jpg' %}" alt="" width="90%">    
+                    </div>
+                    <div class="read-more-overlay" id="postOverlay"></div>
+                    <div class="text-center mt-3">
+                        <button class="btn-continue" id="btnContinue">Continue Reading</button>
+                    </div>
+                </div>
+            </div> 
+            {% if qds %}    
+            <span class="page-head">
+                <a href="" style="text-decoration: none;color: black;">
+                    QUYẾT ĐỊNH THÀNH LẬP PTN HIỆN TRƯỜNG
+                </a>
+            </span>
+            <div class="about-content mb-5 mt-4">
+                <div class="email-section">
+                    {% for qd in qds %}
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="email-icon me-3">
+                            <i class="fa-regular fa-file" style="font-size: medium;"></i>
+                        </div>
+                        <div>
+                            <div class="fw-medium">Quyết định {{qd.Ten}}&nbsp;&nbsp;<a href="{{ qd.File.url }}" style="color: blue;">Xem tệp</a></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         
@@ -57,5 +137,26 @@
 </div>
 
 {% endblock content %} {% block js %}
-<script></script>
+<script>
+document.getElementById('btnContinue').addEventListener('click', function() {
+    const wrapper = document.getElementById('postWrapper');
+    const content = document.getElementById('postContent');
+    const btn = this;
+
+    if (!wrapper.classList.contains('is-expanded')) {
+        // MỞ NỘI DUNG
+        content.style.maxHeight = content.scrollHeight + "px";
+        wrapper.classList.add('is-expanded');
+        btn.textContent = "Show Less";
+    } else {
+        // ĐÓNG NỘI DUNG
+        content.style.maxHeight = "300px"; // Trở về chiều cao mặc định
+        wrapper.classList.remove('is-expanded');
+        btn.textContent = "Continue Reading";
+        
+        // Cuộn nhẹ lên đầu nội dung để khách không bị lạc chỗ
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
+</script>
 {% endblock %}

@@ -154,3 +154,12 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.fullname} - {self.phone}"
+
+class ThanhLapPhong(models.Model):
+    Ten = models.CharField(max_length=500)
+    Ngay = models.DateField(blank=True,null=True)
+    File = models.FileField(upload_to='ThanhLapPhong/')
+    Visibility = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.Ten}'

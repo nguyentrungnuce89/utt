@@ -50,7 +50,11 @@ def Hdxd(request):
     return render(request,'a_hdxd.html',context)
 
 def Lasxd(request):
-    context = {}
+    from .models import ThanhLapPhong
+    qds = ThanhLapPhong.objects.filter(Visibility=True)
+    context = {
+        'qds':qds
+    }
     return render(request,'a_lasxd.html',context)
 
 def Thietbi(request):
