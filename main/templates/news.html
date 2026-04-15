@@ -22,7 +22,7 @@
         <span class="page-head">TIN TỨC - THÔNG BÁO</span>
         {% for i in page %}
         <div class="news-item row mt-3">
-            <div class="news-image col-12 col-md-3 text-center">
+            <div class="news-image col-12 col-md-3 text-start">
                 <a href="{% url 'main:newsdetail' i.slug %}"><img src="{{ i.Image.url }}" alt="" width="220px"></a>
             </div>
             <div class="news-content col-12 col-md-6 mt-1">
