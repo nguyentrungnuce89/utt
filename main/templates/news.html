@@ -23,7 +23,7 @@
         {% for i in page %}
         <div class="news-item row mt-3">
             <div class="news-image col-12 col-md-3 text-start">
-                <a href="{% url 'main:newsdetail' i.slug %}"><img src="{{ i.Image.url }}" alt="" width="100%" style="object-fit: cover;"></a>
+                <a href="{% url 'main:newsdetail' i.slug %}"><img src="{{ i.Image.url }}" alt="" width="100%" style="object-fit: cover;max-height: 190px;max-width:280px ;"></a>
             </div>
             <div class="news-content col-12 col-md-6 mt-1">
                 <div class="news-title">
