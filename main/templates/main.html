@@ -27,7 +27,6 @@
     <link rel="stylesheet" href="{% static 'main/css/a_main.css' %}?{% now "U" %}">
     <title>{% block title %}{% endblock %}</title>
     <script type="text/javascript">
-	
 	</script>
 </head>
 <!-- BEGIN BODY -->
@@ -96,8 +95,8 @@
 
         <div class="container px-5">
 
-            <div class="row">
-                <div class="col-lg-8 col-md-10">
+            <div class="row gap-4 footer-content">
+                <div class="col-lg-6 col-md-10">
                     <p class="fw-bold mb-3 address" style="color: #f17e27;">THÔNG TIN LIÊN HỆ</p>
 
                     <p class="fw-bold mb-2">
@@ -106,8 +105,31 @@
                     <p class="mb-1"><strong>Email:</strong> cttvxdct@utt.edu.vn</p>
                     <p class="mb-1"><strong>Hotline:</strong> 024.38549545</p>
                     <p class="mb-1">
-                        <strong>Địa chỉ:</strong>
-                        54 phố Triều Khúc, phường Thanh Liệt, TP Hà Nội
+                        <strong>ĐKKD:</strong>
+                        Số 54 phố Triều Khúc, phường Thanh Liệt, TP Hà Nội
+                    </p>
+                    <p class="mb-1">
+                        <strong>VPGD:</strong>
+                        Số 11TT9, đường Foresa 1A, KĐT Xuân Phương, phường Xuân Phương, TP Hà Nội
+                    </p>
+                </div>
+                <div class="col-lg-5 col-md-10">
+                    <p class="fw-bold mb-3 address" style="color: #f17e27;font-size: 16px;">Về chúng tôi</p>
+
+                    <p class="mb-1">
+                        <b><i class="fa-solid fa-angle-right" style="color: #f17e27;"></i></b>&nbsp;&nbsp;&nbsp;<a href="{% url 'main:about' %}" style="text-decoration: none;color: white;">Giới thiệu chung</a>
+                    </p>
+                    <p class="mb-1">
+                        <b><i class="fa-solid fa-angle-right" style="color: #f17e27;"></i></b>&nbsp;&nbsp;&nbsp;<a href="{% url 'main:nhansu' %}" style="text-decoration: none;color: white;">Nhân sự</a>
+                    </p>
+                    <p class="mb-1">
+                        <b><i class="fa-solid fa-angle-right" style="color: #f17e27;"></i></b>&nbsp;&nbsp;&nbsp;<a href="{% url 'main:hdxd' %}" style="text-decoration: none;color: white;">Năng lực hoạt động</a>
+                    </p>
+                    <p class="mb-1">
+                        <b><i class="fa-solid fa-angle-right" style="color: #f17e27;"></i></b>&nbsp;&nbsp;&nbsp;<a href="{% url 'main:lasxd' %}" style="text-decoration: none;color: white;">Phòng thí nghiệm LAS-XD 799</a>
+                    </p>
+                    <p class="mb-1">
+                        <b><i class="fa-solid fa-angle-right" style="color: #f17e27;"></i></b>&nbsp;&nbsp;&nbsp;<a href="{% url 'main:thietbi' %}" style="text-decoration: none;color: white;">Trang thiết bị máy móc</a>
                     </p>
                 </div>
             </div>
