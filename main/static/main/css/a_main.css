@@ -91,14 +91,3 @@ footer p{
     border-bottom: 2px solid #F17E26;
     padding: 6px 0px;
 }
-
-/* Chọn tất cả thẻ a nằm trong div có class footer-content */
-.footer-content a {
-    transition: color 0.3s ease; /* Tạo hiệu ứng chuyển màu mượt mà */
-}
-
-/* Hiệu ứng khi di chuột vào */
-.footer-content a:hover {
-    color: #9a9898 !important; /* Màu ghi (Gray). Dùng !important nếu bị dính style inline */
-
-}
