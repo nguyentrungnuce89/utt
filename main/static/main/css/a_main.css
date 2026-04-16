@@ -14,9 +14,7 @@ body{
     color: white;
     font-weight: 500;
 }
-.nav-link:hover{
-    color: #9a9898;
-}
+
 
 .dropdown-menu {
     border-radius: 0;
