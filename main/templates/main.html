@@ -73,6 +73,21 @@
         .navbar .dropdown-menu {
             margin-top: 8px !important; 
         }
+
+        /* Thay đổi hiệu ứng khi click và giữ (Active) */
+        .dropdown-item:active, 
+        .dropdown-item.active {
+            background-color: #f17e27 !important; /* Màu cam của bạn */
+            color: white !important;
+        }
+
+        /* Thay đổi hiệu ứng khi di chuột (Hover) */
+        .dropdown-item:hover {
+            background-color: #f8f9fa; /* Màu xám rất nhạt */
+            color: #f17e27; /* Chữ đổi sang màu cam */
+            padding-left: 1.5rem; /* Hiệu ứng đẩy chữ sang phải nhẹ */
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <!-- BEGIN BODY -->
