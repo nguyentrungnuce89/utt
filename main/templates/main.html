@@ -43,6 +43,36 @@
         .nav-link:hover{
             color: #ffe75e;
         }
+
+        /* Mở menu khi hover */
+        .navbar .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0; /* Loại bỏ khoảng cách khiến menu bị mất focus */
+        }
+
+        /* Tạo vùng đệm "tàng hình" để di chuột không bị mất menu */
+        .navbar .dropdown-menu::before {
+            content: "";
+            position: absolute;
+            top: -20px; /* Độ cao bao phủ khoảng trống giữa toggle và menu */
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: transparent;
+        }
+        .dropdown-menu {
+        transition: all 0.3s ease-in;
+        /* Thêm một chút bóng đổ để tách biệt với nội dung bên dưới */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        /* Xóa bỏ mũi tên mặc định */
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+        /* Di chuyển menu xuống 8px */
+        .navbar .dropdown-menu {
+            margin-top: 8px !important; 
+        }
     </style>
 </head>
 <!-- BEGIN BODY -->
@@ -75,8 +105,24 @@
                                 <a class="nav-link" href="{% url 'main:homepage' %}"><i class="fa-solid fa-house"></i></a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'main:about' %}">GIỚI THIỆU</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">GIỚI THIỆU&nbsp;<i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.8rem;"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'main:about' %}" class="dropdown-item">Giới thiệu chung</a></li>
+                                    <li><a href="{% url 'main:nhansu' %}" class="dropdown-item">Nhân sự công ty</a></li>
+                                    <li><a href="{% url 'main:dkkd' %}" class="dropdown-item">Đăng ký kinh doanh</a></li>
+                                    <li><a href="{% url 'main:hdxd' %}" class="dropdown-item">Năng lực hoạt động</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" data-bs-toggle="dropdown">LAS-XD 799&nbsp;<i class="fa-solid fa-chevron-down ms-1" style="font-size: 0.8rem;"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{% url 'main:lasxd' %}" class="dropdown-item">Giấy chứng nhận đủ điều kiện</a></li>
+                                    <!-- <li><a href="#" class="dropdown-item">Năng lực thí nghiệm chuyên ngành xây dựng</a></li> -->
+                                    <li><a href="{% url 'main:phepthu' %}" class="dropdown-item">Danh mục phép thử phòng thí nghiệm</a></li>
+                                    <li><a href="{% url 'main:thietbi' %}" class="dropdown-item">Trang thiết bị máy móc</a></li>
+                                </ul>
                             </li>
 
                             <li class="nav-item">
@@ -87,9 +133,9 @@
                                 <a class="nav-link" href="{% url 'main:news' %}">TIN TỨC - THÔNG BÁO</a>
                             </li>
 
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="{% url 'main:phepthu' %}">DANH MỤC PHÉP THỬ</a>
-                            </li>
+                            </li> -->
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'main:contact' %}">LIÊN HỆ</a>

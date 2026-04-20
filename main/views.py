@@ -55,7 +55,7 @@ def Lasxd(request):
     context = {
         'qds':qds
     }
-    return render(request,'a_lasxd.html',context)
+    return render(request,'b_lasxd.html',context)
 
 def Thietbi(request):
     from .models import ThietBi
@@ -69,7 +69,7 @@ def Thietbi(request):
     context = {
         'thietbi':dict(nhomthietbi)
     }
-    return render(request,'a_thietbi.html',context)
+    return render(request,'b_thietbi.html',context)
 
 def ThietbiDetail(request,id):
     from .models import ThietBi,HieuChuan
@@ -103,7 +103,7 @@ def PhepThu(request):
     context = {
         'groups':dict(phepthu_type)
     }
-    return render(request,'phepthu.html',context)
+    return render(request,'b_phepthu.html',context)
 
 def News(request):
     from .models import News
