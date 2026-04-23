@@ -7,6 +7,8 @@ from django.conf.urls.static import static
 app_name = "main"
 urlpatterns = [
     path('',views.HomePage,name='homepage'),
+    path('thanhvien/login/', views.login_view, name='login'),
+    path('thanhvien/logout/', views.logout_view, name='logout'),
     path('gioithieu/',views.About,name='about'),
     path('gioithieu/nhansu/',views.Nhansu,name='nhansu'),
     path('gioithieu/nhansu/manage/',views.NhansuManage,name='nhansumanage'),
@@ -34,7 +36,10 @@ urlpatterns = [
     path('tin-tuc/sua/<int:pk>/', views.news_edit, name='news_edit'),
     path('tin-tuc/xoa/<int:pk>/', views.news_delete, name='news_delete'),
     path('thong-bao/<slug:slug>',views.NewsDetail,name='newsdetail'),
+    # Liên hệ
     path('lien-he/',views.Contact,name='contact'),
+    path('lien-he/quanly/', views.contact_manage, name='contact_manage'),
+    path('lien-he/xoa/<int:pk>/', views.contact_delete, name='contact_delete'),
     path('contact/submit/',views.Contact_submit),
     path('nhansu/reorder/',views.Reorder_nhansu,name='reorder_nhansu'),
     # API lấy dữ liệu Bằng cấp/Hợp đồng theo ID nhân sự

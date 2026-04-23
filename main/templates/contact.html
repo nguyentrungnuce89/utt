@@ -67,7 +67,12 @@ textarea.form-control{
 {% load humanize %}
 {% load static %}
 <div class="container mt-2">
-    <span class="contact-head">LIÊN HỆ</span>
+    <span class="contact-head">
+        LIÊN HỆ
+        {% if user.is_authenticated %}
+        &nbsp;<a href="{% url 'main:contact_manage' %}" style="color: blue;text-decoration: none;"><i class="fa-solid fa-pen-to-square"></i></a>
+        {% endif %}
+    </span>
     <div class="map-container mt-4">
     <iframe
         src="https://maps.google.com/maps?q=54%20Triều%20Khúc%20Hà%20Nội&t=&z=17&ie=UTF8&iwloc=&output=embed"

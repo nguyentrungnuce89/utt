@@ -4,6 +4,34 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('main:homepage') # Nếu đã login thì về trang chủ
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('main:homepage')
+            else:
+                messages.error(request, "Tên đăng nhập hoặc mật khẩu không đúng.")
+        else:
+            messages.error(request, "Thông tin đăng nhập không hợp lệ.")
+    
+    form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('main:homepage')
+
 def HomePage(request):
     context = {}
     return render(request,'homepage.html',context)
@@ -11,6 +39,23 @@ def HomePage(request):
 def About(request):
     context = {}
     return render(request,'about.html',context)
+
+# Trang danh sách quản lý liên hệ
+@login_required
+def contact_manage(request):
+    from .models import Contact
+    contacts = Contact.objects.all().order_by('-created_at')
+    return render(request, 'contact_manage.html', {'contacts': contacts})
+
+# API Xóa liên hệ
+@login_required
+def contact_delete(request, pk):
+    from .models import Contact
+    if request.method == 'POST':
+        contact = get_object_or_404(Contact, pk=pk)
+        contact.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 def Nhansu(request):
     from .models import HR
