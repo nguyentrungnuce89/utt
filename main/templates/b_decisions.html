@@ -2,16 +2,7 @@
 {% block style %} 
 {% load static %}
 <style>
-  /* PAGE CSS */
-.decision img{
-    width: 65%;
-}
-@media (max-width: 991px) {
-    .decision img{
-        width: 100%;
-    }
-}
-
+/* PAGE CSS */
 .read-more-wrapper {
     position: relative;
     width: 100%;
@@ -55,10 +46,13 @@
 .read-more-wrapper.is-expanded .read-more-overlay {
     opacity: 0; /* Ẩn lớp phủ mờ khi đã mở hết */
 }
+
+
 </style>
 <link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+<link rel="stylesheet" href="{% static 'main/css/a_nhansu_detail.css' %}?{% now "U" %}">
 {% endblock %} 
-{% block title %}Phép thử phòng thí nghiệm{% endblock %} 
+{% block title %}Phòng thí nghiệm LAS-XD 799{% endblock %} 
 {% block content %} 
 {% load humanize %}
 {% load static %}
@@ -67,7 +61,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
             <li class="breadcrumb-item active" aria-current="page">Phòng thí nghiệm LAS-XD 799</li>
-            <li class="breadcrumb-item active" aria-current="page">Danh mục phép thử</li>
+            <li class="breadcrumb-item active" aria-current="page">Giấy chứng nhận đủ điều kiện thí nghiệm</li>
         </ol>
     </nav>
     <div class="row">
@@ -77,57 +71,47 @@
                     PHÒNG THÍ NGHIỆM LAS-XD 799
                 </div>
                 <div class="menu-list">
-                    <a href="{% url 'main:lasxd'%}">Giấy chứng nhận đủ điều kiện</a>
+                    <a href="{% url 'main:lasxd' %}">Giấy chứng nhận đủ điều kiện</a>
                     <!-- <a href="#">Năng lực thí nghiệm chuyên ngành</a> -->
-                    <a href="#">Danh mục phép thử</a>
+                    <a href="{% url 'main:phepthu' %}">Danh mục phép thử</a>
                     <a href="{% url 'main:thietbi' %}">Trang thiết bị máy móc</a>
-                    <a href="{% url 'main:quyetdinh' %}">Quyết định liên quan</a>
+                    <a href="#">Quyết định liên quan</a>
                 </div>
             </div>
         </div>
         <div class="about mt-3 col-12 col-lg-9">
-            <span class="page-head">DANH MỤC PHÉP THỬ&nbsp;
-                {% if user.is_authenticated %}<a href="{% url 'main:phepthumanage' %}" style="color:blue;text-decoration: none;"><i class="fa-solid fa-pen-to-square"></i></a>{% endif %}
-            </span>  
-            <div class="read-more-wrapper" id="postWrapper">
-                <div class="project table-responsive mt-3 read-more-content" id="postContent">
-                    <table class="table mt-3 table-bordered table-responsive">
-                        <thead class="table-primary">
-                            <th>STT</th>
-                            <th style="min-width: 150px;">TÊN CHỈ TIÊU THÍ NGHIỆM</th>
-                            <th>TIÊU CHUẨN KỸ THUẬT</th>
-                        </thead>
-                        <tbody>
-                            {% for group,phepthus in groups.items %}
-                            <tr>
-                                <td colspan="3"><b>{{ group }}</b></td>
-                            </tr>
-                            {% for i in phepthus %}
-                            <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ i.Ten }}</td>
-                                <td>{{ i.TCKT }}</td>
-                            </tr>
-                            {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="read-more-overlay" id="postOverlay"></div>
-                <div class="text-center mt-3">
-                    <button class="btn-continue" id="btnContinue">Continue Reading</button>
+            <!-- <div class="title mb-1">
+                <b style="color: #0E68B6;font-size: 16px;">PHÒNG THÍ NGHIỆM VÀ KIỂM ĐỊNH XÂY DỰNG LAS-XD 799</b>
+            </div> -->
+            <span class="page-head">
+                <a href="" style="text-decoration: none;color: black;">
+                    QUYẾT ĐỊNH LIÊN QUAN PHÒNG THÍ NGHIỆM LAS-XD 799
+                    {% if user.is_authenticated %}
+                    &nbsp;&nbsp;<a href="{% url 'main:quyetdinh_manage' %}" style="color:blue;text-decoration: none;"><i class="fa-solid fa-pen-to-square"></i></a>
+                    {% endif %}
+                </a>
+            </span>
+            <div class="about-content mb-5 mt-4">
+                <div class="email-section">
+                    {% for qd in qds %}
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="email-icon me-3">
+                            <i class="fa-regular fa-file" style="font-size: medium;"></i>
+                        </div>
+                        <div>
+                            <div class="fw-medium">Quyết định {{qd.Ten}}&nbsp;&nbsp;<a href="{{ qd.File.url }}" style="color: blue;">Xem tệp</a></div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="document-att mt-3">
-                <span class="page-head">GIẤY CHỨNG NHẬN PHÒNG THÍ NGHIỆM</span>
-                <div class="document-list mt-4 mb-5">
-                    <p class="ms-5"><a href="{% static 'main/pdf/1280.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 1280/GCN-BXD ngày 02/10/2019</a></p>
-                    <p class="ms-5"><a href="{% static 'main/pdf/235.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 235/GCN-BXD ngày 29/09/2020</a></p>
-                    <p class="ms-5"><a href="{% static 'main/pdf/238.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 238/GCN-BXD ngày 19/06/2023</a></p>
-                </div>
-            </div>
+        </div>
+
+        
     </div>
+    
 </div>
+
 {% endblock content %} {% block js %}
 <script>
 document.getElementById('btnContinue').addEventListener('click', function() {
@@ -149,6 +133,6 @@ document.getElementById('btnContinue').addEventListener('click', function() {
         // Cuộn nhẹ lên đầu nội dung để khách không bị lạc chỗ
         wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-});  
+});
 </script>
 {% endblock %}

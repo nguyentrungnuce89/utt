@@ -75,6 +75,7 @@
                     <!-- <a href="#">Năng lực thí nghiệm chuyên ngành</a> -->
                     <a href="{% url 'main:phepthu' %}">Danh mục phép thử</a>
                     <a href="{% url 'main:thietbi' %}">Trang thiết bị máy móc</a>
+                    <a href="{% url 'main:quyetdinh' %}">Quyết định liên quan</a>
                 </div>
             </div>
         </div>
@@ -106,27 +107,7 @@
                     </div>
                 </div>
             </div> 
-            {% if qds %}    
-            <span class="page-head">
-                <a href="" style="text-decoration: none;color: black;">
-                    QUYẾT ĐỊNH THÀNH LẬP PHÒNG THÍ NGHIỆM HIỆN TRƯỜNG
-                </a>
-            </span>
-            <div class="about-content mb-5 mt-4">
-                <div class="email-section">
-                    {% for qd in qds %}
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="email-icon me-3">
-                            <i class="fa-regular fa-file" style="font-size: medium;"></i>
-                        </div>
-                        <div>
-                            <div class="fw-medium">Quyết định {{qd.Ten}}&nbsp;&nbsp;<a href="{{ qd.File.url }}" style="color: blue;">Xem tệp</a></div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
+            
         </div>
 
         

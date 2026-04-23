@@ -23,6 +23,11 @@ urlpatterns = [
     path('du-an/manage/',views.ProjectManage,name='projectmanage'),
     path('update-project-full/', views.update_project_full, name='update_project_full'),
     path('delete-project/<int:pk>/', views.delete_project, name='delete_project'),
+    # Quyết định lasxd
+    path('lasxd799/quyetdinh/',views.QuyetDinh,name='quyetdinh'),
+    path('quan-ly-quyet-dinh/', views.quyetdinh_manage, name='quyetdinh_manage'),
+    path('quyet-dinh/update/', views.quyetdinh_update, name='quyetdinh_update'),
+    path('quyet-dinh/delete/<int:pk>/', views.quyetdinh_delete, name='quyetdinh_delete'),
     # Quản lý phép thử
     path('lasxd799/phep-thu/manage',views.PhepThuManage,name='phepthumanage'),
     path('update-phepthu-full/', views.update_phepthu_full, name='update_phepthu_full'),

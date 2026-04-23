@@ -1,0 +1,183 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold text-uppercase text-primary"><i class="fa-solid fa-file-signature me-2"></i>Quản lý Quyết định</h5>
+        <button class="btn btn-success btn-sm" id="btnAddQD">
+            <i class="fa-solid fa-plus"></i> Thêm quyết định
+        </button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-primary">
+                    <tr>
+                        <th width="12%">Ngày ký</th>
+                        <th width="50%">Tên quyết định</th>
+                        <th width="15%">Tệp tin</th>
+                        <th width="10%">Hiển thị</th>
+                        <th width="13%" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in items %}
+                    <tr id="row-{{ i.id }}">
+                        <td class="small">{{ i.Ngay|date:"d/m/Y" }}</td>
+                        <td class="fw-bold text-dark">{{ i.Ten }}</td>
+                        <td>
+                            {% if i.File %}
+                            <a href="{{ i.File.url }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-solid fa-file-pdf"></i> PDF
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if i.Visibility %}
+                                <span class="badge bg-success">Hiện</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Ẩn</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-primary text-white btn-edit-qd" 
+                                data-id="{{ i.id }}" data-ten="{{ i.Ten }}" 
+                                data-ngay="{{ i.Ngay|date:'Y-m-d' }}" data-visibility="{{ i.Visibility }}">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-delete-qd" data-id="{{ i.id }}" data-ten="{{ i.Ten }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center py-4">Chưa có quyết định nào được cập nhật.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="qdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="qdForm" class="modal-content" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="id" id="qd_id">
+            <div class="modal-header">
+                <h6 class="modal-title fw-bold" id="modalTitle">Thông tin Quyết định</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="small fw-bold">Tên/Số hiệu quyết định</label>
+                    <textarea name="Ten" class="form-control" rows="2" required></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="small fw-bold">Ngày quyết định</label>
+                        <input type="date" name="Ngay" class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="small fw-bold">Trạng thái</label>
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" name="Visibility" id="vSwitch" checked>
+                            <label class="form-check-label small">Hiển thị công khai</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="small fw-bold">Đính kèm File (PDF/Image)</label>
+                    <input type="file" name="File" class="form-control">
+                    <small class="text-muted d-block mt-1" id="fileNote" style="display:none;">* Để trống nếu không muốn thay đổi file cũ.</small>
+                </div>
+            </div>
+            <div class="modal-footer py-2">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-primary btn-sm px-4">Lưu lại</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="delModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-body text-center py-4">
+                <i class="fa-solid fa-circle-exclamation text-danger fa-3x mb-3"></i>
+                <h6>Xác nhận xóa?</h6>
+                <p id="del_label" class="small text-muted"></p>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-light btn-sm px-3" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger btn-sm px-3" id="confirmDelQD">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const qdModal = new bootstrap.Modal(document.getElementById('qdModal'));
+    const delModal = new bootstrap.Modal(document.getElementById('delModal'));
+    const qdForm = document.getElementById('qdForm');
+
+    // Mở form thêm mới
+    document.getElementById('btnAddQD').onclick = () => {
+        qdForm.reset();
+        document.getElementById('qd_id').value = "";
+        document.getElementById('modalTitle').innerText = "Thêm Quyết định Mới";
+        document.getElementById('fileNote').style.display = "none";
+        qdModal.show();
+    };
+
+    // Mở form sửa
+    document.querySelectorAll('.btn-edit-qd').forEach(btn => {
+        btn.onclick = function() {
+            qdForm.reset();
+            document.getElementById('qd_id').value = this.dataset.id;
+            qdForm.querySelector('[name="Ten"]').value = this.dataset.ten;
+            qdForm.querySelector('[name="Ngay"]').value = this.dataset.ngay;
+            qdForm.querySelector('[name="Visibility"]').checked = this.dataset.visibility === 'True';
+            document.getElementById('modalTitle').innerText = "Chỉnh sửa Quyết định";
+            document.getElementById('fileNote').style.display = "block";
+            qdModal.show();
+        };
+    });
+
+    // Submit form AJAX
+    qdForm.onsubmit = function(e) {
+        e.preventDefault();
+        fetch('{% url "main:quyetdinh_update" %}', {
+            method: 'POST',
+            body: new FormData(this),
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        }).then(res => res.json()).then(data => {
+            if(data.status === 'success') location.reload();
+            else alert("Lỗi: " + data.message);
+        });
+    };
+
+    // Xóa
+    let delTarget = null;
+    document.querySelectorAll('.btn-delete-qd').forEach(btn => {
+        btn.onclick = function() {
+            delTarget = this.dataset.id;
+            document.getElementById('del_label').innerText = this.dataset.ten;
+            delModal.show();
+        }
+    });
+
+    document.getElementById('confirmDelQD').onclick = function() {
+        fetch(`/quyet-dinh/delete/${delTarget}/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        }).then(res => res.json()).then(data => {
+            if(data.status === 'success') location.reload();
+        });
+    };
+});
+</script>
+{% endblock %}

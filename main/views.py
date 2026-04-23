@@ -102,6 +102,57 @@ def Lasxd(request):
     }
     return render(request,'b_lasxd.html',context)
 
+def QuyetDinh(request):
+    from .models import ThanhLapPhong
+    qds = ThanhLapPhong.objects.filter(Visibility=True)
+    context = {
+        'qds':qds
+    }
+    return render(request,'b_decisions.html',context)
+
+from .models import ThanhLapPhong
+
+# Trang danh sách quản lý
+def quyetdinh_manage(request):
+    items = ThanhLapPhong.objects.all().order_by('-Ngay')
+    return render(request, 'b_decision_manage.html', {'items': items})
+
+# API Thêm/Sửa Quyết định
+def quyetdinh_update(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('id')
+        ten = request.POST.get('Ten')
+        ngay = request.POST.get('Ngay') or None
+        visibility = True if request.POST.get('Visibility') == 'on' else False
+        file_upload = request.FILES.get('File')
+
+        try:
+            if item_id: # SỬA
+                item = get_object_or_404(ThanhLapPhong, id=item_id)
+                item.Ten = ten
+                item.Ngay = ngay
+                item.Visibility = visibility
+                if file_upload:
+                    item.File = file_upload
+                item.save()
+            else: # THÊM MỚI
+                ThanhLapPhong.objects.create(
+                    Ten=ten, Ngay=ngay, File=file_upload, Visibility=visibility
+                )
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+# API Xóa Quyết định
+def quyetdinh_delete(request, pk):
+    if request.method == 'POST':
+        item = get_object_or_404(ThanhLapPhong, pk=pk)
+        item.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+
 def Thietbi(request):
     from .models import ThietBi
     thietbis = ThietBi.objects.filter(Visibility=True).order_by('Nhom','STT')
