@@ -6,6 +6,24 @@
 #sortable tr {
     cursor: move;
 }
+
+.file-box {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    background: #fff;
+}
+.modal-body .form-control-sm, .modal-body .form-select-sm {
+    border-radius: 4px;
+}
+.form-check-input:checked {
+    background-color: #198754; /* Màu xanh khi hồ sơ hiển thị */
+    border-color: #198754;
+}
+
+
 </style>
 <link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
 <!-- SortableJS CDN -->
@@ -15,7 +33,7 @@
 {% block content %} 
 {% load humanize %}
 {% load static %}
-<div class="container px-1">
+<div class="container px-2">
     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
@@ -25,30 +43,32 @@
         </ol>
     </nav>
     <div class="row">
-        <div class="about-menu-wrapper col-12 col-lg-3 mt-3 container-fluid">
+        <!-- <div class="about-menu-wrapper col-12 col-lg-3 mt-3 container-fluid">
             <div class="about-menu">
                 <div class="menu-title">
                     GIỚI THIỆU
                 </div>
                 <div class="menu-list">
+                    <div class="menu-list">
                     <a href="{% url 'main:about'%}">Giới thiệu chung</a>
-                    <a href="#">Nhân sự</a>
+                    <a href="#">Nhân sự công ty</a>
                     <a href="{% url 'main:dkkd' %}">Chứng nhận ĐKKD</a>
                     <a href="{% url 'main:hdxd' %}">Chứng chỉ Năng lực Hoạt động XD</a>
-                    <a href="{% url 'main:lasxd' %}">Phòng thí nghiệm LAS-XD 799</a>
-                    <a href="{% url 'main:thietbi' %}">Trang thiết bị máy móc</a>
+                </div>
                 </div>
             </div>
-        </div>
-        <div class="about mt-3 col-12 col-lg-9">
+        </div> -->
+        <div class="about mt-3 col-12 col-lg-12">
             <div class="title mb-1">
                 <b style="color: #0E68B6;font-size: 16px;">QUẢN LÝ NHÂN SỰ CÔNG TY</b>
             </div>
             <div class="about-content mb-5">
-                <p>
-                    Công ty có một đội ngũ cán bộ kỹ thuật giỏi có nhiều kinh nghiệm, có đủ năng lực để tổ chức thiết kế, thẩm tra, giám sát, kiểm định và đánh giá chất lượng các công trình phức tạp đòi hỏi kỹ thuật cao theo các tiêu chuẩn kỹ thuật hiện hành tại Việt Nam và trên thế giới. Ngoài lực lượng chính là cán bộ của Công ty, Công ty còn kết hợp với đội ngũ chuyên gia gồm: Các Giáo sư, Tiến sĩ, Thạc sĩ, Kỹ sư là các cán bộ giảng dạy, nghiên cứu thuộc các chuyên ngành của Trường Đại học Công nghệ Giao thông vận tải.
-                </p>
-                <p>Hiện nay cơ cấu cán bộ của công ty bao gồm:</p>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p class="mb-0">Di chuyển các dòng nhân sự để hiển thị bảng nhân sự công ty theo thứ tự mong muốn.</p>
+                    <button type="button" class="btn btn-success" id="btn_add_hr" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="fa-solid fa-user-plus"></i>&nbsp; Thêm nhân sự mới
+                    </button>
+                </div>
                 <div class="project table-responsive mt-3">
                     <table class="table mt-1 table-bordered table-responsive">
                         <thead class="table-primary">
@@ -57,12 +77,24 @@
                             <th>Năm sinh</th>
                             <th>Trình độ chuyên môn</th>
                             <th>Chức danh</th>
+                            <th>Phòng ban</th>
                             <th>Năm kinh nghiệm</th>
+                            <th>Ghi chú</th>
                             <th>Hành động</th>
                         </thead>
                         <tbody id="sortable">
                             {% for i in nhansu %}
-                            <tr data-id="{{ i.id }}">
+                            <tr data-id="{{ i.id }}"
+                                data-name="{{ i.Name }}" 
+                                data-sex="{{ i.Sex }}"
+                                data-birthyear="{{ i.BirthYear }}"
+                                data-exp="{{ i.Experience }}"
+                                data-degree="{{ i.Degree }}"
+                                data-title="{{ i.Title }}"
+                                data-note="{{ i.Note|default:'' }}"
+                                data-visibility="{{ i.Visibility }}"
+                                data-photo="{% if i.Photo %}{{ i.Photo.url }}{% endif %}"
+                                data-unit="{{ i.Unit }}">
                                 <td>{{ i.STT }}</td>
                                 <td>
                                     <a href="{% url 'main:nhansudetail' i.slug %}" style="text-decoration: none;color: blue;font-weight: 500;">{{ i.Name }}</a>
@@ -70,9 +102,21 @@
                                 <td style="text-align: center;">{{ i.BirthYear }}</td>
                                 <td>{{ i.Degree }}</td>
                                 <td>{{ i.Title }}</td>
+                                <td>{{ i.Unit }}</td>
                                 <td style="text-align: center;">{{ i.Experience }}</td>
+                                <td style="text-align: left;">{{ i.Note|default_if_none:"" }}</td>
                                 <td style="text-align: center;">
-                                    <a href="" style="text-decoration: none;color: blue;"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                                        <i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit
+                                    </button>
+                                    &nbsp;
+                                    <button class="btn btn-danger btn-sm btn-delete-hr" 
+                                            data-id="{{ i.id }}" 
+                                            data-name="{{ i.Name }}" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteConfirmModal">
+                                        <i class="fa-solid fa-trash-can"></i>&nbsp;Delete
+                                    </button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -80,7 +124,103 @@
                     </table>
                 </div>
             </div>
+            
+            <!-- MODAL -->
+            <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <form id="editProfileForm" class="modal-content border-0 shadow-lg">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" id="emp_id">
+                        <div class="modal-header bg-primary text-white">
+                            <h6 class="modal-title"><span id="edit_title">Chỉnh sửa hồ sơ:</span> <span id="header_name"></span></h6>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <div class="row">
+                                <div class="col-md-4 border-end">
+                                    <div class="d-flex flex-column align-items-center mb-3">
+                                        <div class="position-relative" style="width: 120px; height: 150px;">
+                                            <img id="img_preview" src="" class="rounded border shadow-sm w-100 h-100 mx-auto" style="object-fit: cover; display: none;">
+                                            
+                                            <button type="button" id="btn_delete_photo" 
+                                                    class="btn btn-danger btn-sm position-absolute" 
+                                                    style="top: -10px; right: -10px; border-radius: 50%; padding: 2px 7px; display: none;"
+                                                    title="Xóa ảnh ngay lập tức">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
 
+                                            <div id="img_placeholder" class="rounded border bg-light d-flex align-items-center justify-content-center w-100 h-100 mx-auto">
+                                                <i class="fa-solid fa-camera fa-2x text-muted"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <input type="file" name="Photo" id="input_photo" class="form-control form-control-sm mt-3" style="max-width: 200px;">
+                                    </div>
+                                    <div class="mb-2"><label class="small fw-bold">Họ tên</label><input type="text" name="Name" class="form-control form-control-sm"></div>
+                                    <div class="row mb-2">
+                                        <div class="col-6"><label class="small fw-bold">Năm sinh</label><input type="number" name="BirthYear" class="form-control form-control-sm"></div>
+                                        <div class="col-6">
+                                            <label class="small fw-bold">Giới tính</label>
+                                            <select name="Sex" class="form-select form-select-sm"><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-6"><label class="small fw-bold">Kinh nghiệm</label><input type="number" name="Experience" class="form-control form-control-sm"></div>
+                                        <div class="col-6"><label class="small fw-bold">Trình độ</label><input type="text" name="Degree" class="form-control form-control-sm"></div>
+                                    </div>
+                                    <div class="mb-2"><label class="small fw-bold">Chức danh</label><input type="text" name="Title" class="form-control form-control-sm"></div>
+                                    <div class="mb-2"><label class="small fw-bold">Đơn vị</label><input type="text" name="Unit" class="form-control form-control-sm"></div>
+                                    <div class="mb-2"><label class="small fw-bold">Ghi chú</label><textarea name="Note" class="form-control form-control-sm" rows="2"></textarea></div>
+                                    <div class="form-check form-switch mt-2">
+                                        <input class="form-check-input" type="checkbox" name="Visibility" id="vSwitch">
+                                        <label class="form-check-label medium fw-bold" for="vSwitch">Hiển thị hồ sơ</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 border-end">
+                                    <h6 class="fw-bold text-primary border-bottom pb-2">Bằng cấp & Chứng chỉ</h6>
+                                    <div id="degree_list" class="file-box mb-3"></div>
+                                    <input type="file" name="new_degrees" class="form-control form-control-sm" multiple>
+                                    <div class="caution mt-3 text-danger"><p>Tích vào ô vuông cạnh bằng cấp cần xóa trước khi Lưu cập nhật để xóa bằng cấp đó.</p></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="fw-bold text-success border-bottom pb-2">Hợp đồng lao động</h6>
+                                    <div id="contract_list" class="file-box mb-3"></div>
+                                    <input type="file" name="new_contracts" class="form-control form-control-sm" multiple>
+                                    <div class="caution mt-3 text-danger"><p>Tích vào ô vuông cạnh hợp đồng cần xóa trước khi Lưu cập nhật để xóa hợp đồng đó.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light border-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary px-4"><span id="savebtn">Lưu cập nhật</span> </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END MODAL -->
+
+            <!-- DELETE MODAL -->
+            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h6 class="modal-title"><i class="fa-solid fa-triangle-exclamation"></i> Xác nhận xóa nhân sự</h6>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-4 text-center">
+                            <p class="mb-1">Bạn có chắc chắn muốn xóa nhân sự này không?</p>
+                            <h5 id="delete_target_name" class="text-danger fw-bold"></h5>
+                            <p class="text-muted small">Lưu ý: Hành động này sẽ xóa vĩnh viễn hồ sơ và các tệp đính kèm liên quan.</p>
+                        </div>
+                        <div class="modal-footer justify-content-center border-0">
+                            <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+                            <button type="button" id="confirm_delete_btn" class="btn btn-danger px-4 shadow">Xác nhận xóa sạch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL -->
         </div>
 
         
@@ -146,5 +286,254 @@ new Sortable(el, {
         }
         return '';
 }
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteModal = document.getElementById('deleteConfirmModal');
+    const confirmBtn = document.getElementById('confirm_delete_btn');
+    let currentDeleteId = null;
+
+    // 1. Khi Modal hiện lên: Gán tên nhân sự vào Modal để kiểm tra
+    deleteModal.addEventListener('show.bs.modal', function(event) {
+        const button = event.relatedTarget;
+        currentDeleteId = button.dataset.id;
+        const name = button.dataset.name;
+        
+        document.getElementById('delete_target_name').innerText = name;
+    });
+
+    // 2. Khi nhấn nút "Xác nhận xóa"
+    confirmBtn.addEventListener('click', function() {
+        if (!currentDeleteId) return;
+
+        // Vô hiệu hóa nút để tránh nhấn nhiều lần
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Đang xóa...';
+
+        fetch(`/delete-personnel/${currentDeleteId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === 'success') {
+            const deletedRow = document.querySelector(`tr[data-id="${currentDeleteId}"]`);
+            const deletedSTT = parseInt(deletedRow.querySelector('td:first-child').innerText);
+
+            // 1. Hiệu ứng xóa dòng
+            deletedRow.remove();
+
+            // 2. Tìm tất cả các dòng còn lại trong bảng để cập nhật số STT hiển thị
+            const rows = document.querySelectorAll('#sortable tr');
+            rows.forEach(row => {
+                const sttCell = row.querySelector('td:first-child');
+                let currentSTT = parseInt(sttCell.innerText);
+                
+                if (currentSTT > deletedSTT) {
+                    sttCell.innerText = currentSTT - 1;
+                }
+            });
+
+            bootstrap.Modal.getInstance(deleteModal).hide();
+
+            } else {
+                alert('Lỗi: ' + data.message);
+            }
+        })
+        .finally(() => {
+            confirmBtn.disabled = false;
+            confirmBtn.innerText = 'Xác nhận xóa sạch';
+        });
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editModal = document.getElementById('editProfileModal');
+    const form = document.getElementById('editProfileForm');
+    const btnAddHr = document.getElementById('btn_add_hr');
+    
+    // SỰ KIỆN KHI NHẤN NÚT THÊM MỚI
+    btnAddHr.addEventListener('click', function() {
+        form.reset(); // Xóa sạch dữ liệu cũ trong form
+        form.querySelector('#emp_id').value = ''; // Quan trọng: ID rỗng = Thêm mới
+        document.getElementById('header_name').innerText = "Thêm nhân sự mới";
+        document.getElementById('edit_title').innerText = "";
+        document.getElementById('savebtn').innerText = "Thêm nhân sự mới";
+        // Đặt giá trị mặc định cho Switch là true (đã tích)
+        const vSwitch = document.getElementById('vSwitch');
+        vSwitch.checked = true;
+        // Reset ảnh và danh sách file
+        inputPhoto.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                // Kiểm tra xem có phải là file ảnh không
+                if (!file.type.startsWith('image/')) {
+                    alert("Vui lòng chọn tệp hình ảnh!");
+                    this.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Hiển thị ảnh vừa chọn lên preview và ẩn placeholder
+                    updatePhotoDisplay(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        document.getElementById('degree_list').innerHTML = '';
+        document.getElementById('contract_list').innerHTML = '';
+    });
+
+    // Mở modal và điền dữ liệu
+    editModal.addEventListener('show.bs.modal', function(event) {
+        const btn = event.relatedTarget;
+        const row = btn.closest('tr');
+        const id = row.dataset.id;
+        document.getElementById('savebtn').innerText = "Lưu thay đổi";
+
+        // Điền text inputs
+        form.querySelector('#emp_id').value = id;
+        form.querySelector('[name="Name"]').value = row.dataset.name;
+        form.querySelector('[name="Sex"]').value = row.dataset.sex;
+        form.querySelector('[name="BirthYear"]').value = row.dataset.birthyear;
+        form.querySelector('[name="Experience"]').value = row.dataset.exp;
+        form.querySelector('[name="Degree"]').value = row.dataset.degree;
+        form.querySelector('[name="Title"]').value = row.dataset.title;
+        form.querySelector('[name="Note"]').value = row.dataset.note;
+        form.querySelector('[name="Unit"]').value = row.dataset.unit;
+        form.querySelector('[name="Visibility"]').checked = (row.dataset.visibility === 'True');
+        document.getElementById('header_name').innerText = row.dataset.name;
+
+        // Xử lý ảnh Photo
+        const preview = document.getElementById('img_preview');
+        const holder = document.getElementById('img_placeholder');
+        const btnDeletePhoto = document.getElementById('btn_delete_photo');
+        if (row.dataset.photo) {
+            preview.src = row.dataset.photo; preview.style.display = 'block'; holder.style.setProperty('display', 'none', 'important');btnDeletePhoto.style.setProperty('display', 'block', 'important');
+        } else {
+            preview.style.display = 'none'; holder.style.display = 'flex';btnDeletePhoto.style.setProperty('display', 'none', 'important');
+        }
+        // --- TRƯỜNG HỢP 1: Khi người dùng CHỌN FILE MỚI ---
+        const inputPhoto = document.getElementById('input_photo');
+        const imgPreview = document.getElementById('img_preview');
+        const imgPlaceholder = document.getElementById('img_placeholder');
+        
+        function updatePhotoDisplay(src) {
+            if (src && src !== 'None' && src !== '') {
+                imgPreview.src = src;
+                imgPreview.style.setProperty('display', 'block', 'important');
+                imgPlaceholder.style.setProperty('display', 'none', 'important');
+                
+            } else {
+                imgPreview.src = "";
+                imgPreview.style.setProperty('display', 'none', 'important');
+                imgPlaceholder.style.setProperty('display', 'flex', 'important');
+                
+            }
+        }
+
+        inputPhoto.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                // Kiểm tra xem có phải là file ảnh không
+                if (!file.type.startsWith('image/')) {
+                    alert("Vui lòng chọn tệp hình ảnh!");
+                    this.value = "";
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Hiển thị ảnh vừa chọn lên preview và ẩn placeholder
+                    updatePhotoDisplay(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- TRƯỜNG HỢP 2: Khi MỞ MODAL (Điền ảnh cũ) ---
+        // Giả sử bạn có sự kiện show.bs.modal như các bước trước
+        const editModal = document.getElementById('editProfileModal');
+        editModal.addEventListener('show.bs.modal', function(event) {
+            const btn = event.relatedTarget;
+            const row = btn.closest('tr');
+            const photoUrl = row.dataset.photo; // Lấy URL từ thuộc tính data-photo của thẻ <tr>
+
+            // Reset input file về trống khi mở modal mới
+            inputPhoto.value = "";
+            
+            // Cập nhật hiển thị
+            updatePhotoDisplay(photoUrl);
+        });
+
+        // Sự kiện khi nhấn nút xóa ảnh trực tiếp
+        btnDeletePhoto.addEventListener('click', function() {
+            const hrId = document.getElementById('emp_id').value;
+            if (!hrId) return;
+
+            if (confirm('Bạn có chắc chắn muốn xóa ảnh này ngay lập tức?')) {
+                fetch(`/delete-hr-photo/${hrId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // 1. Cập nhật giao diện Modal
+                        updatePhotoDisplay("");
+                        inputPhoto.value = "";
+
+                        // 2. Cập nhật dữ liệu ngầm ở bảng chính (để lần sau mở lại không hiện ảnh cũ)
+                        const row = document.querySelector(`tr[data-id="${hrId}"]`);
+                        if (row) {
+                            row.dataset.photo = "";
+                        }
+                    } else {
+                        alert('Lỗi: ' + data.message);
+                    }
+                });
+            }
+        });
+
+        // Load files từ server
+        fetch(`/get-hr-files/${id}/`).then(res => res.json()).then(data => {
+            document.getElementById('degree_list').innerHTML = data.degrees.map(d => `
+                <div class="d-flex justify-content-between small border-bottom py-1">
+                    <a href="${d.File}" target="_blank" class="text-truncate" style="max-width:140px;">${d.Name}</a>
+                    <input type="checkbox" name="del_degrees" value="${d.id}" class="form-check-input">
+                </div>`).join('') || '<span class="text-muted small">Trống</span>';
+
+            document.getElementById('contract_list').innerHTML = data.contracts.map(c => `
+                <div class="d-flex justify-content-between small border-bottom py-1">
+                    <a href="${c.File}" target="_blank">File HĐ #${c.id}</a>
+                    <input type="checkbox" name="del_contracts" value="${c.id}" class="form-check-input">
+                </div>`).join('') || '<span class="text-muted small">Trống</span>';
+        });
+    });
+
+    // Lưu Form qua AJAX
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        // Fix giá trị checkbox Visibility
+        formData.set('Visibility', form.querySelector('[name="Visibility"]').checked ? 'on' : 'off');
+
+        const response = await fetch('{% url "main:update_hr_full" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'}
+        });
+        const result = await response.json();
+        if (result.status === 'success') location.reload();
+    };
+});
 </script>
 {% endblock %}

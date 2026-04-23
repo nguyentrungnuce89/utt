@@ -60,7 +60,7 @@
                         <tbody>
                             {% for i in nhansu %}
                             <tr>
-                                <td>{{ i.STT }}</td>
+                                <td>{{ forloop.counter }}</td>
                                 <td>
                                     <a href="{% url 'main:nhansudetail' i.slug %}" style="text-decoration: none;color: blue;font-weight: 500;">{{ i.Name }}</a>
                                 </td>

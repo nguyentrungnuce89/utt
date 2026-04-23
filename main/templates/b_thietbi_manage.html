@@ -1,0 +1,256 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+</style>
+<link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+{% endblock %} 
+{% block title %}Quản lý trang thiết bị máy móc{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-1">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Phòng thí nghiệm LAS-XD 799</li>
+            <li class="breadcrumb-item active" aria-current="page">Trang thiết bị máy móc</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <!-- <div class="about-menu-wrapper col-12 col-lg-3 mt-3 container-fluid">
+            <div class="about-menu">
+                <div class="menu-title">
+                    PHÒNG THÍ NGHIỆM LAS-XD 799
+                </div>
+                <div class="menu-list">
+                    <a href="{% url 'main:lasxd'%}">Giấy chứng nhận đủ điều kiện</a> -->
+                    <!-- <a href="#">Năng lực thí nghiệm chuyên ngành</a> -->
+                    <!-- <a href="{% url 'main:phepthu' %}">Danh mục phép thử</a>
+                    <a href="#">Trang thiết bị máy móc</a>
+                </div>
+            </div>
+        </div> -->
+        <div class="about mt-3 col-12 col-lg-12">
+            <div class="title d-flex justify-content-between align-items-center mb-2">
+                <b style="color: #0E68B6;font-size: 16px;">
+                    QUẢN LÝ TRANG THIẾT BỊ MÁY MÓC THÍ NGHIỆM
+                </b>
+                <button type="button" class="btn btn-success btn-sm" id="btn_add_tb" data-bs-toggle="modal" data-bs-target="#editTBModal">
+                    <i class="fa-solid fa-plus"></i> Thêm thiết bị
+                </button>
+            </div>
+            <div class="about-content mb-5">
+                <div class="about-content mb-5">
+                    <div class="tb table-responsive mt-3">
+                        <table class="table mt-1 table-bordered table-responsive table-striped">
+                            <thead class="table-primary">
+                                <th>STT</th>
+                                <th>Tên thiết bị</th>
+                                <th>Nhãn hiệu/Công suất</th>
+                                <th>Số lượng</th>
+                                <th>Tình trạng hoạt động</th>
+                                <th>Ghi chú</th>
+                                <th>Hành động</th>
+                            </thead>
+                            <tbody>
+                                {% for group,tbs in thietbi.items %}
+                                <tr>
+                                    <td colspan="7"><b>{{ group }}</b></td>
+                                </tr>
+                                {% for tb in tbs %}
+                                <tr
+                                data-id="{{ tb.id }}" data-ten="{{ tb.Ten }}" data-nhom="{{ tb.Nhom }}" 
+                                data-nhanhieu="{{ tb.NhanHieu }}" data-soluong="{{ tb.SoLuong }}" 
+                                data-tinhtrang="{{ tb.TinhTrang }}" data-ghichu="{{ tb.GhiChu|default:'' }}"
+                                data-visibility="{{ tb.Visibility }}" data-anh="{% if tb.HinhAnh %}{{ tb.HinhAnh.url }}{% endif %}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ tb.Ten }}</td>
+                                    <td>{{ tb.NhanHieu }}</td>
+                                    <td style="text-align:center">{{ tb.SoLuong }}</td>
+                                    <td style="text-align:center">{{ tb.TinhTrang }}</td>
+                                    <td>{{ tb.GhiChu|default_if_none:'' }}</td>
+                                    <td style="white-space: nowrap;">
+                                        <button class="btn btn-success btn-sm"><a href="{% url 'main:thietbidetail' tb.id %}" style="color: white;"><i class="fa-solid fa-eye"></i></a></button>
+                                        <button class="btn btn-primary btn-sm btn-edit-tb" data-bs-toggle="modal" data-bs-target="#editTBModal">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm btn-delete-tb" data-id="{{ tb.id }}" data-name="{{ tb.Ten }}" data-bs-toggle="modal" data-bs-target="#deleteTBModal">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- MODAL EDIT -->
+    <div class="modal fade" id="editTBModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <form id="editTBForm" class="modal-content border-0 shadow-lg" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id" id="tb_id">
+                <div class="modal-header bg-primary text-white py-2">
+                    <h6 class="modal-title" id="modal_title">Thông tin thiết bị</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 border-end">
+                            <div class="text-center mb-3">
+                                <div class="position-relative mx-auto" style="width: 150px; height: 120px;">
+                                    <img id="tb_preview" src="" class="rounded border w-100 h-100" style="object-fit: cover; display: none;">
+                                    <div id="tb_placeholder" class="rounded border bg-light d-flex align-items-center justify-content-center w-100 h-100">
+                                        <i class="fa-solid fa-microscope fa-3x text-muted"></i>
+                                    </div>
+                                </div>
+                                <input type="file" name="HinhAnh" id="input_anh" class="form-control form-control-sm mt-2">
+                            </div>
+                            <div class="mb-2"><label class="small fw-bold">Tên thiết bị</label><input type="text" name="Ten" class="form-control form-control-sm" required></div>
+                            <div class="mb-2"><label class="small fw-bold">Nhóm thiết bị</label><input type="text" name="Nhom" class="form-control form-control-sm"></div>
+                            <div class="row g-2">
+                                <div class="col-6"><label class="small fw-bold">Số lượng</label><input type="number" name="SoLuong" class="form-control form-control-sm"></div>
+                                <div class="col-6"><label class="small fw-bold">Tình trạng</label><input type="text" name="TinhTrang" class="form-control form-control-sm"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="mb-2"><label class="small fw-bold">Nhãn hiệu/Công suất</label><input type="text" name="NhanHieu" class="form-control form-control-sm"></div>
+                            <div class="mb-2"><label class="small fw-bold">Ghi chú</label><textarea name="GhiChu" class="form-control form-control-sm" rows="2"></textarea></div>
+                            
+                            <h6 class="fw-bold text-primary mt-3 border-bottom pb-1 small">HỒ SƠ HIỆU CHUẨN/KIỂM ĐỊNH</h6>
+                            <div id="hieuchuan_list" class="border rounded p-2 bg-light mb-2" style="max-height: 120px; overflow-y: auto;"></div>
+                            <input type="file" name="new_hieuchuan_files" class="form-control form-control-sm" multiple>
+                            <p style="color: red;" class="mt-2">Tích ô vuông bên cạnh file hiệu chuẩn cần xóa trước khi Lưu dữ liệu để xóa file.</p>
+                            <div class="form-check form-switch mt-3">
+                                <input class="form-check-input" type="checkbox" name="Visibility" id="vSwitch" checked>
+                                <label class="form-check-label small fw-bold">Hiển thị lên Web</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary btn-sm px-4">Lưu dữ liệu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+        <!-- MODAL DELETE -->
+    <div class="modal fade" id="deleteTBModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-4">
+                    <i class="fa-solid fa-circle-exclamation text-danger fa-3x mb-3"></i>
+                    <p>Xóa thiết bị: <b id="del_name" class="text-danger"></b>?</p>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" id="confirm_delete_tb" class="btn btn-danger btn-sm px-3">Xóa sạch</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %} {% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('editTBForm');
+    const preview = document.getElementById('tb_preview');
+    const placeholder = document.getElementById('tb_placeholder');
+    const listHieuChuan = document.getElementById('hieuchuan_list');
+
+    function toggleAnh(src) {
+        if (src) { preview.src = src; preview.style.display = 'block'; placeholder.style.display = 'none'; }
+        else { preview.style.display = 'none'; placeholder.style.display = 'flex'; }
+    }
+
+    // NÚT THÊM MỚI
+    document.getElementById('btn_add_tb').addEventListener('click', () => {
+        form.reset();
+        document.getElementById('tb_id').value = '';
+        document.getElementById('modal_title').innerText = "Thêm thiết bị mới";
+        document.getElementById('vSwitch').checked = true;
+        toggleAnh(null);
+        listHieuchuan.innerHTML = '';
+    });
+
+    // NÚT SỬA
+    document.querySelectorAll('.btn-edit-tb').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const id = row.dataset.id;
+            document.getElementById('tb_id').value = id;
+            document.getElementById('modal_title').innerText = "Cập nhật: " + row.dataset.ten;
+            
+            form.querySelector('[name="Ten"]').value = row.dataset.ten;
+            form.querySelector('[name="Nhom"]').value = row.dataset.nhom;
+            form.querySelector('[name="NhanHieu"]').value = row.dataset.nhanhieu;
+            form.querySelector('[name="SoLuong"]').value = row.dataset.soluong;
+            form.querySelector('[name="TinhTrang"]').value = row.dataset.tinhtrang;
+            form.querySelector('[name="GhiChu"]').value = row.dataset.ghichu;
+            form.querySelector('[name="Visibility"]').checked = row.dataset.visibility === 'True';
+            
+            toggleAnh(row.dataset.anh);
+
+            // Load file hiệu chuẩn
+            fetch(`/get-hieuchuan-files/${id}/`).then(r => r.json()).then(data => {
+                listHieuChuan.innerHTML = data.files.map(f => `
+                    <div class="d-flex justify-content-between align-items-center mb-1 border-bottom pb-1">
+                        <a href="${f.File}" target="_blank" class="small text-decoration-none text-truncate" style="max-width:200px;">
+                            <i class="fa-solid fa-file-pdf text-danger"></i> ${f.Ten}
+                        </a>
+                        <input type="checkbox" name="del_hieuchuan" value="${f.id}" class="form-check-input">
+                    </div>
+                `).join('') || '<span class="text-muted small">Chưa có hồ sơ</span>';
+            });
+        });
+    });
+
+    // XỬ LÝ SUBMIT (AJAX)
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('/update-thietbi-full/', {
+            method: 'POST',
+            body: formData,
+            headers: {'X-CSRFToken': '{{ csrf_token }}'}
+        }).then(r => r.json()).then(data => {
+            if(data.status === 'success') location.reload();
+        });
+    };
+
+    // XỬ LÝ XÓA
+    let deleteId = null;
+    document.querySelectorAll('.btn-delete-tb').forEach(btn => {
+        btn.addEventListener('click', function() {
+            deleteId = this.dataset.id;
+            document.getElementById('del_name').innerText = this.dataset.name;
+        });
+    });
+
+    document.getElementById('confirm_delete_tb').onclick = function() {
+        fetch(`/delete-thietbi/${deleteId}/`, {
+            method: 'POST',
+            headers: {'X-CSRFToken': '{{ csrf_token }}'}
+        }).then(() => location.reload());
+    };
+
+    // Preview ảnh khi chọn file
+    document.getElementById('input_anh').onchange = function() {
+        const reader = new FileReader();
+        reader.onload = (e) => toggleAnh(e.target.result);
+        reader.readAsDataURL(this.files[0]);
+    };
+});
+</script>
+{% endblock %}

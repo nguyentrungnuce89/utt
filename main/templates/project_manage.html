@@ -1,0 +1,360 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+
+@media (max-width: 991px) {
+    .project-image img{
+        width: 100%;
+    }
+}
+/* Container và Item */
+.custom-acc-item {
+    margin-bottom: 15px;
+}
+
+
+
+/* Icon xoay */
+.custom-acc-trigger i {
+    transition: transform 0.3s ease;
+}
+
+/* Khi MỞ (Active): Icon quay xuống hoặc lên tùy bạn */
+.custom-acc-item.is-active .custom-acc-trigger i {
+    transform: rotate(180deg);
+}
+
+/* Nội dung Body */
+.custom-acc-body {
+    display: none;
+}
+
+/* TRẠNG THÁI HIỂN THỊ: Khi có class is-active */
+.custom-acc-item.is-active .custom-acc-body {
+    display: block;
+}
+
+</style>
+
+{% endblock %} 
+{% block title %}Dự án{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-1 px-md-5">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Công trình tiêu biểu</li>
+        </ol>
+    </nav>
+    <div class="custom-acc-container">
+        <div class="custom-acc-item is-active">
+            <span class="page-head custom-acc-trigger">
+                <a href="" style="text-decoration: none;color:black">
+                    QUẢN LÝ CÁC DỰ ÁN ĐÃ THAM GIA
+                </a>
+            </span>  
+            <div class="project table-responsive mt-3 custom-acc-body">
+                {% if user.is_authenticated %}
+                <div class="mt-3">
+                    <button class="btn btn-success btn-sm" id="btnAddNewProject">
+                        <i class="fa-solid fa-plus"></i> &nbsp;Thêm dự án mới
+                    </button>
+                </div>
+                {% endif %}
+                <table class="table mt-3 table-bordered table-responsive">
+                    <thead class="table-primary">
+                        <th>STT</th>
+                        <th>TÊN DỰ ÁN</th>
+                        <th>CHỦ ĐẦU TƯ</th>
+                        <th style="min-width: 150px;">CÔNG VIỆC THỰC HIỆN</th>
+                        <th>NGUỒN VỐN</th>
+                        <th>TIẾN ĐỘ</th>
+                        <th>NĂM</th>
+                        <th>HIỂN THỊ</th>
+                        <th>HÀNH ĐỘNG</th>
+                    </thead>
+                    <tbody>
+                        {% for group,projects in groups.items %}
+                        <tr>
+                            <td colspan="7"><b>{{ group }}</b></td>
+                        </tr>
+                        {% for project in projects %}
+                        <tr data-id="{{ project.id }}" data-name="{{ project.Name }}" data-type="{{ project.Type }}"
+                            data-investor="{{ project.Investor }}" data-job="{{ project.Job }}"
+                            data-fundby="{{ project.FundBy }}" data-progress="{{ project.Progress }}"
+                            data-year="{{ project.Year|default:'' }}" data-visibility="{{ project.Visibility }}"
+                            data-note="{{ project.Note|default:'' }}">
+                            <td class="stt-num text-center">{{ project.STT }}</td>
+                            <td>{{ project.Name }}</td>
+                            <td>{{ project.Investor }}</td>
+                            <td>{{ project.Job }}</td>
+                            <td>{{ project.FundBy }}</td>
+                            <td>
+                                {% if project.Progress == 'Đã hoàn thành' %}
+                                    <span class="badge bg-success">Đã hoàn thành</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark">Đang thực hiện</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ project.Year|default_if_none:''}}
+                            </td>
+                            <td>
+                                {% if project.Visibility == 1 %}
+                                <span style="color: green;">Có</span>
+                                {% else %}
+                                <span style="color: red;">Không</span>
+                                {% endif %}
+                            </td>
+                            {% if user.is_authenticated %}
+                            <td class="text-nowrap">
+                                <button class="btn btn-primary btn-sm btn-edit-project" data-bs-toggle="modal" data-bs-target="#projectModal">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm btn-delete-project" data-id="{{ project.id }}" data-name="{{ project.Name }}" data-bs-toggle="modal" data-bs-target="#deleteProjectModal">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL -->
+    <div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form id="projectForm" class="modal-content">
+                {% csrf_token %}
+                <input type="hidden" name="id" id="project_id">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="pModalLabel">Thông tin dự án</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="fw-bold small">Tên dự án</label>
+                            <textarea name="Name" class="form-control" rows="2" required></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Loại dự án (Nhóm)</label>
+                            <select name="Type" class="form-select" required>
+                                <option value="TƯ VẤN KIỂM ĐỊNH, THÍ NGHIỆM">TƯ VẤN KIỂM ĐỊNH, THÍ NGHIỆM</option>
+                                <option value="TƯ VẤN THÍ NGHIỆM, KIỂM ĐỊNH, KHẢO SÁT ĐỊA CHẤT">TƯ VẤN THÍ NGHIỆM, KIỂM ĐỊNH, KHẢO SÁT ĐỊA CHẤT</option>
+                                <option value="TƯ VẤN THIẾT KẾ, LẬP DỰ ÁN">TƯ VẤN THIẾT KẾ, LẬP DỰ ÁN</option>
+                                <option value="TƯ VẤN THẨM TRA AN TOÀN GIAO THÔNG, THIẾT KẾ">TƯ VẤN THẨM TRA AN TOÀN GIAO THÔNG, THIẾT KẾ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Tiến độ</label>
+                            <select name="Progress" class="form-select">
+                                <option value="Đang thực hiện">Đang thực hiện</option>
+                                <option value="Đã hoàn thành">Đã hoàn thành</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Chủ đầu tư</label>
+                            <input type="text" name="Investor" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Nguồn vốn</label>
+                            <input type="text" name="FundBy" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="fw-bold small">Công việc thực hiện</label>
+                            <textarea name="Job" class="form-control" rows="2"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="Visibility" id="vSwitch" checked>
+                                <label class="form-check-label">Hiển thị dự án này</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- DELETE MODAL -->
+    <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white py-2">
+                    <h6 class="modal-title">Xác nhận xóa dự án</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <i class="fa-solid fa-circle-exclamation text-danger fa-3x mb-3"></i>
+                    <p class="mb-0">Bạn có chắc chắn muốn xóa dự án:</p>
+                    <h6 id="del_project_name" class="fw-bold mt-2 text-primary"></h6>
+                    <p class="text-muted small mt-2">Hành động này không thể hoàn tác và số STT trong nhóm sẽ tự động được sắp xếp lại.</p>
+                </div>
+                <div class="modal-footer bg-light py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="button" class="btn btn-danger btn-sm px-4" id="btnConfirmDelete">Xác nhận xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %} {% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const triggers = document.querySelectorAll('.custom-acc-trigger');
+
+    triggers.forEach(trigger => {
+        // Lấy phần tử cha (item) và phần body tương ứng
+        const item = trigger.closest('.custom-acc-item');
+        const body = item.querySelector('.custom-acc-body');
+
+
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault(); // Ngăn thẻ <a> nhảy trang
+
+            if (item.classList.contains('is-active')) {
+                // ĐANG MỞ -> ĐÓNG LẠI
+                item.classList.remove('is-active');
+            } else {
+                // ĐANG ĐÓNG -> MỞ RA
+
+                item.classList.add('is-active');
+            }
+        });
+    });
+});
+
+</script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const pModal = new bootstrap.Modal(document.getElementById('projectModal'));
+    const pForm = document.getElementById('projectForm');
+
+    // Nút THÊM MỚI
+    document.getElementById('btnAddNewProject')?.addEventListener('click', function() {
+        pForm.reset();
+        document.getElementById('project_id').value = ""; // Xóa ID để Backend biết là thêm mới
+        document.getElementById('pModalLabel').innerText = "Thêm dự án mới";
+        pModal.show();
+    });
+
+    // Nút SỬA (Ủy quyền sự kiện vì có thể danh sách thay đổi)
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.btn-edit-project')) {
+            const btn = e.target.closest('.btn-edit-project');
+            const row = btn.closest('tr');
+            
+            pForm.reset();
+            document.getElementById('pModalLabel').innerText = "Cập nhật dự án";
+            
+            // Đổ dữ liệu từ data-* vào form
+            document.getElementById('project_id').value = row.dataset.id;
+            pForm.querySelector('[name="Name"]').value = row.dataset.name;
+            pForm.querySelector('[name="Type"]').value = row.dataset.type;
+            pForm.querySelector('[name="Investor"]').value = row.dataset.investor;
+            pForm.querySelector('[name="Job"]').value = row.dataset.job;
+            pForm.querySelector('[name="FundBy"]').value = row.dataset.fundby;
+            pForm.querySelector('[name="Progress"]').value = row.dataset.progress;
+            pForm.querySelector('[name="Visibility"]').checked = row.dataset.visibility === 'True';
+            
+            pModal.show();
+        }
+    });
+
+    // Xử lý GỬI FORM (AJAX)
+    pForm.onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        fetch('{% url "main:update_project_full" %}', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                location.reload(); // Reload để thấy thay đổi
+            } else {
+                alert("Lỗi: " + data.message);
+            }
+        });
+    };
+
+    // Biến lưu trữ ID dự án cần xóa
+let projectIdToDelete = null;
+const deleteModal = new bootstrap.Modal(document.getElementById('deleteProjectModal'));
+
+// 1. Khi nhấn nút Thùng rác trên bảng
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn-delete-project');
+    if (btn) {
+        projectIdToDelete = btn.dataset.id; // Lấy ID từ data-id của nút
+        const row = btn.closest('tr');
+        const projectName = row.dataset.name; // Lấy tên từ data-name của hàng
+        
+        // Hiển thị tên dự án vào Modal để người dùng kiểm tra lại
+        document.getElementById('del_project_name').innerText = projectName;
+        deleteModal.show();
+    }
+});
+
+// 2. Khi nhấn nút "Xác nhận xóa" trong Modal
+document.getElementById('btnConfirmDelete').addEventListener('click', function() {
+    if (!projectIdToDelete) return;
+
+    fetch(`/delete-project/${projectIdToDelete}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            deleteModal.hide();
+            location.reload(); // Load lại trang để cập nhật danh sách và STT mới
+        } else {
+            alert("Có lỗi xảy ra: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Không thể kết nối đến máy chủ.");
+    });
+});
+});
+
+// Logic Xóa Dự án
+let delProjectId = null;
+document.querySelectorAll('.btn-delete-project').forEach(btn => {
+    btn.addEventListener('click', function() {
+        delProjectId = this.dataset.id;
+        document.getElementById('del_project_display_name').innerText = this.dataset.name;
+    });
+});
+
+document.getElementById('confirm_delete_project')?.addEventListener('click', function() {
+    fetch(`/delete-project/${delProjectId}/`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}'}
+    }).then(() => location.reload());
+});
+</script>
+{% endblock %}

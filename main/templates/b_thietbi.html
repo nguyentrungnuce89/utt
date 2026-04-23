@@ -34,7 +34,12 @@
         </div>
         <div class="about mt-3 col-12 col-lg-9">
             <div class="title mb-1">
-                <b style="color: #0E68B6;font-size: 16px;">TRANG THIẾT BỊ MÁY MÓC THÍ NGHIỆM</b>
+                <b style="color: #0E68B6;font-size: 16px;">
+                    TRANG THIẾT BỊ MÁY MÓC THÍ NGHIỆM
+                    {% if user.is_authenticated %}
+                    &nbsp;<a href="{% url 'main:thietbimanage' %}" style="text-decoration: none;color: blue;"><i class="fa-regular fa-pen-to-square"></i></a>
+                    {% endif %}
+                </b>
             </div>
             <div class="about-content mb-5">
                 <div class="about-content mb-5">

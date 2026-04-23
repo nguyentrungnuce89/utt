@@ -1,0 +1,180 @@
+{% extends 'main.html' %} 
+{% block style %} 
+{% load static %}
+<style>
+  /* PAGE CSS */
+.decision img{
+    width: 65%;
+}
+@media (max-width: 991px) {
+    .decision img{
+        width: 100%;
+    }
+}
+
+
+
+
+</style>
+<link rel="stylesheet" href="{% static 'main/css/a_about.css' %}?{% now "U" %}">
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+{% endblock %} 
+{% block title %}Quản lý phép thử phòng thí nghiệm{% endblock %} 
+{% block content %} 
+{% load humanize %}
+{% load static %}
+<div class="container px-1">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Phòng thí nghiệm LAS-XD 799</li>
+            <li class="breadcrumb-item active" aria-current="page">Danh mục phép thử</li>
+        </ol>
+    </nav>
+    <div class="row">
+
+        <div class="about mt-3 col-12 col-lg-12">
+            <span class="page-head">QUẢN LÝ DANH MỤC PHÉP THỬ&nbsp;
+            </span>  
+            <div class="read-more-wrapper" id="postWrapper">
+                <button type="button" class="btn btn-outline-primary btn-sm mt-4" id="btn_add_pt" data-bs-toggle="modal" data-bs-target="#editPTModal">
+                    <i class="fa-solid fa-flask-vial"></i> Thêm phép thử
+                </button>
+                <div class="project table-responsive mt-2 read-more-content" id="postContent">
+                    <table class="table mt-3 table-bordered table-responsive">
+                        <thead class="table-primary">
+                            <th>STT</th>
+                            <th style="min-width: 150px;">TÊN CHỈ TIÊU THÍ NGHIỆM</th>
+                            <th>TIÊU CHUẨN KỸ THUẬT</th>
+                            <th>GHI CHÚ</th>
+                            <th>HÀNH ĐỘNG</th>
+                        </thead>
+                        {% for group,phepthus in groups.items %}
+                        <tbody data-group="{{ group }}">
+                            <tr>
+                                <td colspan="5"><b>{{ group }}</b></td>
+                            </tr>
+                            {% for i in phepthus %}
+                            <tr data-id="{{ i.id }}" data-ten="{{ i.Ten }}" data-nhom="{{ i.Nhom }}" data-tckt="{{ i.TCKT }}" data-note="{{ i.Note|default:'' }}">
+                                <td class="stt-num text-center">{{ forloop.counter }}</td>
+                                <td>{{ i.Ten }}</td>
+                                <td>{{ i.TCKT }}</td>
+                                <td>{{ i.Note|default:'' }}</td>
+                                <td class="text-nowrap">
+                                    <button class="btn btn-primary btn-sm btn-edit-pt" data-bs-toggle="modal" data-bs-target="#editPTModal"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button class="btn btn-danger btn-sm btn-delete-pt" data-id="{{ i.id }}" data-name="{{ i.Ten }}" data-bs-toggle="modal" data-bs-target="#deletePTModal"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+    </div>
+    
+    <!-- MODAL EDIT -->
+    <div class="modal fade" id="editPTModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form id="editPTForm" class="modal-content border-0 shadow">
+                {% csrf_token %}
+                <input type="hidden" name="id" id="pt_id">
+                <div class="modal-header bg-info text-white py-2">
+                    <h6 class="modal-title">Thông tin phép thử</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="small fw-bold">Nhóm (Loại thí nghiệm)</label>
+                        <input type="text" name="Nhom" class="form-control form-control-sm" placeholder="VD: Thí nghiệm đất, Bê tông nhựa..." required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="small fw-bold">Tên phép thử</label>
+                        <textarea name="Ten" class="form-control form-control-sm" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="small fw-bold">Tiêu chuẩn kỹ thuật (TCKT)</label>
+                        <textarea name="TCKT" class="form-control form-control-sm" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="small fw-bold">Ghi chú</label>
+                        <input type="text" name="Note" class="form-control form-control-sm">
+                    </div>
+                    <p class="text-muted small italic mt-2">* Số STT sẽ được tự động tính toán dựa trên nhóm bạn chọn.</p>
+                </div>
+                <div class="modal-footer bg-light py-2">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-info btn-sm text-white px-4">Lưu phép thử</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- MODAL XÓA -->
+    <div class="modal fade" id="deletePTModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="modal-body text-center p-4">
+                    <p>Xác nhận xóa phép thử:<br><b id="del_pt_name" class="text-danger"></b>?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Hủy</button>
+                        <button type="button" id="confirm_delete_pt" class="btn btn-danger btn-sm">Xóa ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} {% block js %}
+<script>
+// NÚT THÊM MỚI PHÉP THỬ
+document.getElementById('btn_add_pt').addEventListener('click', () => {
+    document.getElementById('editPTForm').reset();
+    document.getElementById('pt_id').value = '';
+});
+
+// NÚT SỬA PHÉP THỬ
+document.querySelectorAll('.btn-edit-pt').forEach(btn => {
+    btn.addEventListener('click', function() {
+        console.log('EDIT');
+        const row = this.closest('tr');
+        console.log(row.dataset.ten);
+        const form = document.getElementById('editPTForm');
+        form.querySelector('#pt_id').value = row.dataset.id;
+        form.querySelector('[name="Ten"]').value = row.dataset.ten;
+        form.querySelector('[name="Nhom"]').value = row.dataset.nhom;
+        form.querySelector('[name="TCKT"]').value = row.dataset.tckt;
+        form.querySelector('[name="Note"]').value = row.dataset.note;
+    });
+});
+
+// SUBMIT FORM PHÉP THỬ
+document.getElementById('editPTForm').onsubmit = function(e) {
+    e.preventDefault();
+    fetch('{% url "main:update_phepthu_full" %}', {
+        method: 'POST',
+        body: new FormData(this),
+        headers: {'X-CSRFToken': '{{ csrf_token }}'}
+    }).then(r => r.json()).then(data => {
+        if(data.status === 'success') location.reload();
+    });
+};
+
+// XỬ LÝ XÓA PHÉP THỬ
+let deletePTId = null;
+document.querySelectorAll('.btn-delete-pt').forEach(btn => {
+    btn.addEventListener('click', function() {
+        deletePTId = this.dataset.id;
+        document.getElementById('del_pt_name').innerText = this.dataset.name;
+    });
+});
+
+document.getElementById('confirm_delete_pt').onclick = function() {
+    fetch(`/delete-phepthu/${deletePTId}/`, {
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}'}
+    }).then(() => location.reload());
+};
+</script>
+<!-- SORT -->
+{% endblock %}

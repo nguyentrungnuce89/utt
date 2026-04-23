@@ -85,7 +85,9 @@
             </div>
         </div>
         <div class="about mt-3 col-12 col-lg-9">
-            <span class="page-head">DANH MỤC PHÉP THỬ PHÒNG THÍ NGHIỆM LAS-XD 799</span>  
+            <span class="page-head">DANH MỤC PHÉP THỬ&nbsp;
+                {% if user.is_authenticated %}<a href="{% url 'main:phepthumanage' %}" style="color:blue;text-decoration: none;"><i class="fa-solid fa-pen-to-square"></i></a>{% endif %}
+            </span>  
             <div class="read-more-wrapper" id="postWrapper">
                 <div class="project table-responsive mt-3 read-more-content" id="postContent">
                     <table class="table mt-3 table-bordered table-responsive">
@@ -116,7 +118,7 @@
                 </div>
             </div>
             <div class="document-att mt-3">
-                <span class="page-head">GIẤY CHỨNG NHẬN PHÒNG THÍ NGHIỆM CHUYÊN NGÀNH</span>
+                <span class="page-head">GIẤY CHỨNG NHẬN PHÒNG THÍ NGHIỆM</span>
                 <div class="document-list mt-4 mb-5">
                     <p class="ms-5"><a href="{% static 'main/pdf/1280.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 1280/GCN-BXD ngày 02/10/2019</a></p>
                     <p class="ms-5"><a href="{% static 'main/pdf/235.pdf' %}" style="color: blue;text-decoration: none;"><i class="fa-regular fa-file"></i>&nbsp;Giấy chứng nhận đủ điều kiện hoạt động thí nghiệm chuyên ngành xây dựng số 235/GCN-BXD ngày 29/09/2020</a></p>
