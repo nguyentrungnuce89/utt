@@ -121,7 +121,7 @@ def ProjectManage(request):
     }
     return render(request,'project_manage.html',context)
 
-def PhepThu(request):
+def PhepThuList(request):
     from .models import PhepThu
     phepthus = PhepThu.objects.order_by('Nhom','STT')
     from collections import defaultdict
