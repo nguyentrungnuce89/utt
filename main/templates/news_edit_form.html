@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container mt-4 mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{% url 'main:news_manage' %}">Quản lý tin tức</a></li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <h5 class="mb-0 fw-bold">{{ title }}</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }} <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label fw-bold small">Tiêu đề tin tức</label>
+                        {{ form.Name }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Ảnh đại diện</label>
+                        {{ form.Image }}
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">File đính kèm (nếu có)</label>
+                        {{ form.Attachment }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold small">Mô tả ngắn (Description)</label>
+                        {{ form.Description }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold small">Nội dung chi tiết</label>
+                        {{ form.Content }}
+                    </div>
+                    <div class="col-12 border-top pt-3">
+                        <div class="form-check form-switch">
+                            {{ form.Visibility }}
+                            <label class="form-check-label">Hiển thị bài viết này trên trang chủ</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <a href="{% url 'main:news_manage' %}" class="btn btn-secondary px-4">Hủy</a>
+                    <button type="submit" class="btn btn-primary px-4">Lưu bài viết</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    /* Chỉnh CKEditor rộng 100% */
+    .django-ckeditor-widget {
+        width: 100% !important;
+    }
+    .page-head {
+        border-left: 4px solid #0d6efd;
+        padding-left: 10px;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

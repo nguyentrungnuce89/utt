@@ -1,0 +1,103 @@
+{% extends 'main.html' %}
+{% block content %}
+<div class="container mt-4 px-1">
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tin tức - Thông báo</li>
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold">QUẢN LÝ TIN TỨC - THÔNG BÁO</h4>
+        <a href="{% url 'main:news_add' %}" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-plus"></i> Thêm tin mới
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover border">
+            <thead class="table-light">
+                <tr>
+                    <th>Ảnh</th>
+                    <th>Tiêu đề</th>
+                    <th>Ngày đăng</th>
+                    <th>Hiển thị</th>
+                    <th class="text-center">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in news_list %}
+                <tr id="news-row-{{ item.id }}">
+                    <td>
+                        {% if item.Image %}
+                        <img src="{{ item.Image.url }}" width="80" height="50" style="object-fit: cover;">
+                        {% endif %}
+                    </td>
+                    <td><span class="fw-bold text-dark">{{ item.Name }}</span>&nbsp;&nbsp;<a href="{% url 'main:newsdetail' item.slug%}" style="color: blue;">Xem bài</a></td>
+                    <td>{{ item.Created_at|date:"d/m/Y" }}</td>
+                    <td>
+                        {% if item.Visibility %}
+                        <span class="badge bg-success">Hiện</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Ẩn</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{% url 'main:news_edit' item.id %}" class="btn btn-sm btn-outline-primary me-1">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                        <button class="btn btn-sm btn-outline-danger btn-del-news" 
+                                data-id="{{ item.id }}" data-name="{{ item.Name }}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="delNewsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white py-2">
+                <h6 class="modal-title">Xác nhận xóa tin</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Bạn có chắc muốn xóa bài viết:</p>
+                <p id="del_news_title" class="fw-bold text-danger"></p>
+            </div>
+            <div class="modal-footer py-1">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger btn-sm" id="confirmDelBtn">Xóa bài</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    let newsIdToDelete = null;
+    const delModal = new bootstrap.Modal(document.getElementById('delNewsModal'));
+
+    document.querySelectorAll('.btn-del-news').forEach(btn => {
+        btn.onclick = function() {
+            newsIdToDelete = this.dataset.id;
+            document.getElementById('del_news_title').innerText = this.dataset.name;
+            delModal.show();
+        }
+    });
+
+    document.getElementById('confirmDelBtn').onclick = function() {
+        fetch(`/tin-tuc/xoa/${newsIdToDelete}/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        }).then(res => res.json()).then(data => {
+            if(data.status === 'success') location.reload();
+        });
+    }
+</script>
+{% endblock %}

@@ -15,11 +15,12 @@ class News(models.Model):
     Note = models.TextField(blank=True,null=True)
     Visibility = models.BooleanField(default=True)
     Attachment = models.FileField(blank=True,null=True)
-    slug = models.SlugField(blank=True,unique=True)
+    slug = models.SlugField(blank=True,unique=True,max_length=250)
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.Name)
+            # Cắt ngắn slug nếu tiêu đề quá dài để đảm bảo an toàn
+            self.slug = slugify(self.Name)[:250]
         super().save(*args, **kwargs)
 
     def __str__(self):

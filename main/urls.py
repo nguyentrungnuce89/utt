@@ -27,7 +27,12 @@ urlpatterns = [
     path('delete-phepthu/<int:pk>/', views.delete_phepthu, name='delete_phepthu'),  
     path('update-phepthu-order/', views.update_phepthu_order, name='update_phepthu_order'),
     path('lasxd799/phep-thu/',views.PhepThuList,name='phepthu'),
-    path('thong-bao/',views.News,name='news'),
+    # Tin tức
+    path('thong-bao/',views.NewsList,name='news'),
+    path('quan-ly-tin-tuc/', views.news_manage, name='news_manage'),
+    path('tin-tuc/them/', views.news_edit, name='news_add'),
+    path('tin-tuc/sua/<int:pk>/', views.news_edit, name='news_edit'),
+    path('tin-tuc/xoa/<int:pk>/', views.news_delete, name='news_delete'),
     path('thong-bao/<slug:slug>',views.NewsDetail,name='newsdetail'),
     path('lien-he/',views.Contact,name='contact'),
     path('contact/submit/',views.Contact_submit),

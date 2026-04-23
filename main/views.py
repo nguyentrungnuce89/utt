@@ -146,7 +146,7 @@ def PhepThuManage(request):
     }
     return render(request,'b_phepthu_manage.html',context)
 
-def News(request):
+def NewsList(request):
     from .models import News
     from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
     news = News.objects.filter(Visibility=True)
@@ -342,6 +342,7 @@ def delete_personnel(request, pk):
         
 
 # 1. Cập nhật hoặc Thêm mới Thiết bị
+@login_required
 def update_thietbi_full(request):
     from django.shortcuts import render, get_object_or_404
     from django.http import JsonResponse
@@ -393,6 +394,7 @@ def update_thietbi_full(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 # 2. Xóa thiết bị và tự động cập nhật lại STT
+@login_required
 def delete_thietbi(request, pk):
     from django.shortcuts import render, get_object_or_404
     from django.http import JsonResponse
@@ -414,6 +416,7 @@ def delete_thietbi(request, pk):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 # 3. Lấy danh sách file hiệu chuẩn (Dùng cho Modal Edit)
+@login_required
 def get_hieuchuan_files(request, pk):
     from django.shortcuts import render, get_object_or_404
     from django.http import JsonResponse
@@ -443,6 +446,7 @@ from django.db.models import F, Max
 from .models import PhepThu
 
 # 1. Cập nhật hoặc Thêm mới Phép thử
+@login_required
 def update_phepthu_full(request):
     if request.method == 'POST':
         pt_id = request.POST.get('id')
@@ -472,6 +476,7 @@ def update_phepthu_full(request):
         return JsonResponse({'status': 'success'})
 
 # 2. Xóa phép thử và dồn STT trong nhóm
+@login_required
 def delete_phepthu(request, pk):
     if request.method == 'POST':
         pt = get_object_or_404(PhepThu, pk=pk)
@@ -484,6 +489,7 @@ def delete_phepthu(request, pk):
         return JsonResponse({'status': 'success'})
     
 # sắp xếp phép thử
+@login_required
 @require_POST
 def update_phepthu_order(request):
     from .models import PhepThu
@@ -505,11 +511,6 @@ def update_phepthu_order(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
 # api dự án 
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
-from django.db.models import F, Max
-from django.db import transaction
-from .models import Project
 
 # 1. Cập nhật hoặc Thêm mới Dự án
 from django.shortcuts import render, get_object_or_404
@@ -519,6 +520,7 @@ from django.db.models import F, Max
 from .models import Project
 
 # View xử lý Thêm/Sửa
+@login_required
 def update_project_full(request):
     if request.method == 'POST':
         p_id = request.POST.get('id')
@@ -552,6 +554,7 @@ def update_project_full(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 # 2. Xóa dự án
+@login_required
 def delete_project(request, pk):
     if request.method == 'POST':
         project = get_object_or_404(Project, pk=pk)
@@ -569,3 +572,60 @@ def delete_project(request, pk):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
+# manage news
+from .models import News
+from django import forms
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django.shortcuts import render, redirect
+
+# Form để dùng cho trang Thêm/Sửa (vì có CKEditor và Slug)
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ['Name', 'Image', 'Description', 'Content', 'Visibility', 'Attachment']
+        widgets = {
+            'Name': forms.TextInput(attrs={'class': 'form-control'}),
+            'Description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'Content': forms.CharField(widget=CKEditorUploadingWidget()),
+            'Visibility': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
+
+# 1. Trang danh sách quản lý
+@login_required
+def news_manage(request):
+    news_list = News.objects.all().order_by('-Created_at')
+    return render(request, 'news_manage.html', {'news_list': news_list})
+
+# 2. Trang Thêm/Sửa (Gộp chung)
+@login_required
+def news_edit(request, pk=None):
+    if pk:
+        news_item = get_object_or_404(News, pk=pk)
+        title = "Chỉnh sửa tin tức"
+    else:
+        news_item = None
+        title = "Thêm tin tức mới"
+
+    if request.method == 'POST':
+        form = NewsForm(request.POST, request.FILES, instance=news_item)
+        if form.is_valid():
+            new_obj = form.save(commit=False)
+            if not news_item:
+                new_obj.Created_by = request.user
+            new_obj.save()
+            return redirect('main:news_manage')
+    else:
+        form = NewsForm(instance=news_item)
+    
+    return render(request, 'news_edit_form.html', {'form': form, 'title': title})
+
+# 3. API Xóa (Dùng cho Modal)
+@login_required
+def news_delete(request, pk):
+    if request.method == 'POST':
+        news_item = get_object_or_404(News, pk=pk)
+        news_item.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error'}, status=400)

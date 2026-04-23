@@ -15,11 +15,14 @@
     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);margin: 12px 0;" aria-label="breadcrumb" >
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'main:homepage'%}">Trang chủ</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tin tức</li>
+            <li class="breadcrumb-item active" aria-current="page">Tin tức - Thông báo</li>
         </ol>
     </nav>
     <div class="news">
-        <span class="page-head">TIN TỨC - THÔNG BÁO</span>
+        <span class="page-head">
+            TIN TỨC - THÔNG BÁO
+            {% if user.is_authenticated %}&nbsp;<a href="{% url 'main:news_manage' %}" style="color:blue;text-decoration: none;"><i class="fa-solid fa-pen-to-square"></i></a>{% endif %}
+        </span>
         {% for i in page %}
         <div class="news-item row mt-3">
             <div class="news-image col-12 col-md-3 text-start">
